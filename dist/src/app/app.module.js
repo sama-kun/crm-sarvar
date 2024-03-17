@@ -42,6 +42,7 @@ const logging_interceptor_1 = require("../common/interceptors/logging.intercepto
 const typeorm_1 = require("@nestjs/typeorm");
 const dotenv = __importStar(require("dotenv"));
 const product_module_1 = require("../modules/product/product.module");
+const config_1 = require("@nestjs/config");
 const order_module_1 = require("../modules/order/order.module");
 const basket_module_1 = require("../modules/basket/basket.module");
 const cloudinary_module_1 = require("../modules/cloudinary/cloudinary.module");
@@ -58,22 +59,28 @@ AppModule = __decorate([
             cloudinary_module_1.CloudinaryModule,
             order_module_1.OrderModule,
             basket_module_1.BasketModule,
-            typeorm_1.TypeOrmModule.forRoot({
-                type: "postgres",
-                host: process.env.POSTGRES_HOST,
-                port: parseInt(process.env.POSTGRES_PORT),
-                username: process.env.POSTGRES_USER,
-                password: process.env.POSTGRES_PASSWORD,
-                database: process.env.POSTGRES_NAME,
-                entities: [__dirname + "/../../src/database/entities/*.entity{.ts,.js}"],
-                subscribers: [
-                    __dirname + "/../../src/database/subscribers/*.subscriber{.ts,.js}",
-                ],
-                synchronize: true,
-                autoLoadEntities: true,
-                logging: false,
-                migrations: [__dirname + "/../../src/database/migrations/*{.ts,.js}"],
-                ssl: Boolean(process.env.DB_SSl) || false,
+            config_1.ConfigModule.forRoot({
+                envFilePath: '.env',
+                isGlobal: true,
+            }),
+            typeorm_1.TypeOrmModule.forRootAsync({
+                imports: [config_1.ConfigModule],
+                inject: [config_1.ConfigService],
+                useFactory: (config) => ({
+                    type: 'postgres',
+                    url: config.get('DATABASE_URL'),
+                    entities: [
+                        __dirname + '/../../src/database/entities/*.entity{.ts,.js}',
+                    ],
+                    subscribers: [
+                        __dirname + '/../../src/database/subscribers/*.subscriber{.ts,.js}',
+                    ],
+                    synchronize: true,
+                    autoLoadEntities: true,
+                    logging: false,
+                    migrations: [__dirname + '/../../src/database/migrations/*{.ts,.js}'],
+                    ssl: Boolean(process.env.DB_SSl) || false,
+                }),
             }),
         ],
         controllers: [app_controller_1.AppController],
