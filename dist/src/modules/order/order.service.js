@@ -14,7 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderService = void 0;
 const BaseService_1 = require("../../common/base/BaseService");
-const Order_entity_1 = require("../../database/entities/Order.entity");
+const order_entity_1 = require("../../database/entities/order.entity");
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
@@ -32,10 +32,10 @@ let OrderService = class OrderService extends BaseService_1.BaseService {
         const owner = await this.userService.findById(Number(data.owner), []);
         const deliveryman = await this.userService.findById(Number(data.deliveryman), []);
         if (owner.role != enums_1.RoleEnum.CLIENT) {
-            throw Error("Owner is not client");
+            throw Error('Owner is not client');
         }
         if (deliveryman.role != enums_1.RoleEnum.DELIVERYMAN) {
-            throw Error("Deliveryman is not deliveryman");
+            throw Error('Deliveryman is not deliveryman');
         }
         const baskets = data.baskets;
         let amount = 0;
@@ -55,7 +55,7 @@ let OrderService = class OrderService extends BaseService_1.BaseService {
 };
 OrderService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(Order_entity_1.OrderEntity)),
+    __param(0, (0, typeorm_1.InjectRepository)(order_entity_1.OrderEntity)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
         basket_service_1.BasketService,
         users_service_1.UserService])

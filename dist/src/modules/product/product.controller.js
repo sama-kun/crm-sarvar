@@ -17,7 +17,7 @@ const common_1 = require("@nestjs/common");
 const product_service_1 = require("./product.service");
 const BaseController_1 = require("../../common/base/BaseController");
 const update_product_dto_1 = require("./dto/update-product.dto");
-const Product_entity_1 = require("../../database/entities/Product.entity");
+const product_entity_1 = require("../../database/entities/product.entity");
 const user_entity_1 = require("../../database/entities/user.entity");
 const search_product_dto_1 = require("./dto/search-product.dto");
 const auth_user_decorator_1 = require("../../common/decorators/auth-user.decorator");
@@ -47,44 +47,44 @@ let ProductController = class ProductController extends BaseController_1.BaseCon
     }
 };
 __decorate([
-    (0, swagger_1.ApiOperation)({ summary: "Create Category" }),
+    (0, swagger_1.ApiOperation)({ summary: 'Create Category' }),
     (0, swagger_1.ApiResponse)({
         status: 201,
-        type: Product_entity_1.ProductEntity,
-        description: "Product created successfully",
+        type: product_entity_1.ProductEntity,
+        description: 'Product created successfully',
     }),
-    (0, swagger_1.ApiBody)({ type: Product_entity_1.ProductEntity }),
+    (0, swagger_1.ApiBody)({ type: product_entity_1.ProductEntity }),
     (0, common_1.Post)(),
     (0, common_1.UseGuards)(roles_quard_1.RolesQuard),
     (0, roles_auth_decorator_1.Roles)(enums_1.RoleEnum.ROOT),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, auth_user_decorator_1.AuthUser)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Product_entity_1.ProductEntity,
+    __metadata("design:paramtypes", [product_entity_1.ProductEntity,
         user_entity_1.UserEntity]),
     __metadata("design:returntype", void 0)
 ], ProductController.prototype, "create", null);
 __decorate([
-    (0, swagger_1.ApiOperation)({ summary: "Update Product" }),
+    (0, swagger_1.ApiOperation)({ summary: 'Update Product' }),
     (0, swagger_1.ApiResponse)({
         status: 201,
-        type: Product_entity_1.ProductEntity,
-        description: "Product updated successfully",
+        type: product_entity_1.ProductEntity,
+        description: 'Product updated successfully',
     }),
-    (0, swagger_1.ApiParam)({ name: "id", description: "Product ID" }),
-    (0, swagger_1.ApiBody)({ type: Product_entity_1.ProductEntity }),
-    (0, common_1.Patch)(":id"),
+    (0, swagger_1.ApiParam)({ name: 'id', description: 'Product ID' }),
+    (0, swagger_1.ApiBody)({ type: product_entity_1.ProductEntity }),
+    (0, common_1.Patch)(':id'),
     (0, common_1.UseGuards)(roles_quard_1.RolesQuard),
     (0, roles_auth_decorator_1.Roles)(enums_1.RoleEnum.ROOT),
     __param(0, (0, auth_user_decorator_1.AuthUser)()),
-    __param(1, (0, common_1.Param)("id")),
+    __param(1, (0, common_1.Param)('id')),
     __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [user_entity_1.UserEntity, Number, update_product_dto_1.UpdateProductDto]),
     __metadata("design:returntype", void 0)
 ], ProductController.prototype, "update", null);
 __decorate([
-    (0, swagger_1.ApiOperation)({ summary: "Get all Products using query" }),
+    (0, swagger_1.ApiOperation)({ summary: 'Get all Products using query' }),
     (0, swagger_1.ApiQuery)({ type: search_product_dto_1.SearchProductDto }),
     (0, common_1.Get)(),
     (0, common_1.UseGuards)(roles_quard_1.RolesQuard),
@@ -95,25 +95,25 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ProductController.prototype, "findAll", null);
 __decorate([
-    (0, swagger_1.ApiParam)({ name: "id", description: "Product ID" }),
-    (0, swagger_1.ApiOperation)({ summary: "Get Product by id" }),
+    (0, swagger_1.ApiParam)({ name: 'id', description: 'Product ID' }),
+    (0, swagger_1.ApiOperation)({ summary: 'Get Product by id' }),
     (0, swagger_1.ApiResponse)({
         status: 201,
-        type: Product_entity_1.ProductEntity,
+        type: product_entity_1.ProductEntity,
     }),
-    (0, swagger_1.ApiQuery)({ name: "relations", required: false, type: Array }),
+    (0, swagger_1.ApiQuery)({ name: 'relations', required: false, type: Array }),
     (0, common_1.UseGuards)(roles_quard_1.RolesQuard),
     (0, roles_auth_decorator_1.Roles)(enums_1.RoleEnum.ROOT),
-    (0, common_1.Get)("/:id"),
-    __param(0, (0, common_1.Param)("id", common_1.ParseIntPipe)),
+    (0, common_1.Get)('/:id'),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, common_1.Query)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, search_product_dto_1.SearchProductDto]),
     __metadata("design:returntype", Promise)
 ], ProductController.prototype, "getOne", null);
 ProductController = __decorate([
-    (0, swagger_1.ApiTags)("Product"),
-    (0, common_1.Controller)("product"),
+    (0, swagger_1.ApiTags)('Product'),
+    (0, common_1.Controller)('product'),
     (0, swagger_1.ApiBearerAuth)(),
     __metadata("design:paramtypes", [product_service_1.ProductService])
 ], ProductController);

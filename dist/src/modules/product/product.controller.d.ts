@@ -1,10 +1,10 @@
-import { ProductService } from "./product.service";
-import { BaseController } from "@/common/base/BaseController";
-import { CreateProductDto } from "./dto/create-product.dto";
-import { UpdateProductDto } from "./dto/update-product.dto";
-import { ProductEntity } from "@/database/entities/Product.entity";
-import { UserEntity } from "@/database/entities/user.entity";
-import { SearchProductDto } from "./dto/search-product.dto";
+import { ProductService } from './product.service';
+import { BaseController } from '@/common/base/BaseController';
+import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
+import { ProductEntity } from '@/database/entities/product.entity';
+import { UserEntity } from '@/database/entities/user.entity';
+import { SearchProductDto } from './dto/search-product.dto';
 export declare class ProductController extends BaseController<ProductEntity, CreateProductDto, UpdateProductDto, SearchProductDto, ProductService> {
     private ProductService;
     constructor(ProductService: ProductService);
