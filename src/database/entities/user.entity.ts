@@ -1,11 +1,11 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { Entity, Column, ManyToOne, OneToMany, JoinColumn } from "typeorm";
-import { RoleEnum } from "@/interfaces/enums";
-import { BaseModel } from "@/common/base/BaseModel";
-import { IUser } from "@/interfaces/entities";
-import { OrderEntity } from "./order.entity";
+import { ApiProperty } from '@nestjs/swagger';
+import { Entity, Column, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
+import { RoleEnum } from '@/interfaces/enums';
+import { BaseModel } from '@/common/base/BaseModel';
+import { IUser } from '@/interfaces/entities';
+import { OrderEntity } from './order.entity';
 
-@Entity("user")
+@Entity('user')
 export class UserEntity extends BaseModel implements IUser {
   @ApiProperty()
   @Column({ unique: true })
@@ -16,7 +16,7 @@ export class UserEntity extends BaseModel implements IUser {
   password?: string;
 
   @ApiProperty({ enum: RoleEnum, default: RoleEnum.USER })
-  @Column({ type: "enum", enum: RoleEnum, default: RoleEnum.USER })
+  @Column({ type: 'enum', enum: RoleEnum, default: RoleEnum.USER })
   role: RoleEnum;
 
   @ApiProperty({ required: false })
@@ -51,4 +51,8 @@ export class UserEntity extends BaseModel implements IUser {
   @OneToMany(() => OrderEntity, (order) => order.deliveryman)
   @ApiProperty({ type: OrderEntity, isArray: true })
   ordersAsDeliveryman: OrderEntity[];
+
+  @ApiProperty({ required: false })
+  @Column({ nullable: true })
+  phone?: string;
 }

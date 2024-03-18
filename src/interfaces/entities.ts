@@ -20,6 +20,7 @@ export interface IUser extends IBaseModel {
   name?: string;
   address?: string;
   carNumber?: string;
+  phone?: string;
   deliverymanAsClient?: IUser;
   ordersAsClient?: IOrder[]; // owner
   ordersAsDeliveryman?: IOrder[]; // deliveryman
