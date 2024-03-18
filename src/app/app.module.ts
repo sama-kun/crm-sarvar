@@ -39,8 +39,6 @@ console.log(process.env.POSTGRES_PORT);
       isGlobal: true, // Makes the ConfigModule globally available
     }),
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule], // Import ConfigModule
-      inject: [ConfigService], // Inject ConfigService
       useFactory: (config: ConfigService) => ({
         type: 'postgres', // Specify your DB type, e.g., 'postgres', 'mysql'
         url: config.get('DATABASE_URL'), // Get the DB URL from config
