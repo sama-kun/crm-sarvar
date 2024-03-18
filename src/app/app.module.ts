@@ -41,7 +41,7 @@ console.log(process.env.POSTGRES_PORT);
     TypeOrmModule.forRootAsync({
       useFactory: (config: ConfigService) => ({
         type: 'postgres', // Specify your DB type, e.g., 'postgres', 'mysql'
-        url: config.get('DATABASE_URL'), // Get the DB URL from config
+        // url: config.get('DATABASE_URL'), // Get the DB URL from config
         host: process.env.POSTGRES_HOST,
         port: parseInt(process.env.POSTGRES_PORT),
         // port: process.env.POSTGRES_PORT,
@@ -58,7 +58,10 @@ console.log(process.env.POSTGRES_PORT);
         autoLoadEntities: true,
         logging: false,
         migrations: [__dirname + '/../../src/database/migrations/*{.ts,.js}'],
-        ssl: false,
+        ssl:
+          process.env.NODE_ENV === 'production'
+            ? { rejectUnauthorized: false }
+            : false,
       }),
     }),
     // TypeOrmModule.forRoot({
