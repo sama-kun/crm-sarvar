@@ -55,7 +55,6 @@ console.log(process.env.POSTGRES_PORT);
         autoLoadEntities: true,
         logging: false,
         migrations: [__dirname + '/../../src/database/migrations/*{.ts,.js}'],
-        ssl: Boolean(process.env.DB_SSl) || false,
       }),
     }),
     // TypeOrmModule.forRoot({
