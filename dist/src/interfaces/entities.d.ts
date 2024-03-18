@@ -1,4 +1,4 @@
-import { DiscountTypeEnum, FileTypesEnum, PaymentTypeEnum, RoleEnum } from "./enums";
+import { DiscountTypeEnum, FileTypesEnum, PaymentTypeEnum, RoleEnum } from './enums';
 export interface IBaseModel {
     id: number;
     createdAt?: Date;
@@ -22,6 +22,7 @@ export interface IUser extends IBaseModel {
 export interface IPaymentHistory extends IBaseModel {
     money: number;
     paymentType: PaymentTypeEnum;
+    itog: number;
 }
 export interface IProfile extends IBaseModel {
     debts: number;

@@ -1,14 +1,14 @@
-import { BaseService } from "@/common/base/BaseService";
-import { OrderEntity } from "@/database/entities/Order.entity";
-import { Injectable } from "@nestjs/common";
-import { CreateOrderDto } from "./dto/create-order.dto";
-import { UpdateOrderDto } from "./dto/update-order.dto";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { UserEntity } from "@/database/entities/user.entity";
-import { BasketService } from "../basket/basket.service";
-import { UserService } from "../users/users.service";
-import { RoleEnum } from "@/interfaces/enums";
+import { BaseService } from '@/common/base/BaseService';
+import { OrderEntity } from '@/database/entities/order.entity';
+import { Injectable } from '@nestjs/common';
+import { CreateOrderDto } from './dto/create-order.dto';
+import { UpdateOrderDto } from './dto/update-order.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { UserEntity } from '@/database/entities/user.entity';
+import { BasketService } from '../basket/basket.service';
+import { UserService } from '../users/users.service';
+import { RoleEnum } from '@/interfaces/enums';
 
 // const console = new Logger('UserService');
 
@@ -21,7 +21,7 @@ export class OrderService extends BaseService<
   constructor(
     @InjectRepository(OrderEntity) protected repo: Repository<OrderEntity>,
     private readonly basketService: BasketService,
-    private readonly userService: UserService
+    private readonly userService: UserService,
   ) {
     super();
   }
@@ -29,13 +29,13 @@ export class OrderService extends BaseService<
     const owner = await this.userService.findById(Number(data.owner), []);
     const deliveryman = await this.userService.findById(
       Number(data.deliveryman),
-      []
+      [],
     );
     if (owner.role != RoleEnum.CLIENT) {
-      throw Error("Owner is not client");
+      throw Error('Owner is not client');
     }
     if (deliveryman.role != RoleEnum.DELIVERYMAN) {
-      throw Error("Deliveryman is not deliveryman");
+      throw Error('Deliveryman is not deliveryman');
     }
     const baskets = data.baskets;
     let amount = 0;

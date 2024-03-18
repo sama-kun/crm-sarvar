@@ -3,7 +3,7 @@ import {
   FileTypesEnum,
   PaymentTypeEnum,
   RoleEnum,
-} from "./enums";
+} from './enums';
 
 export interface IBaseModel {
   id: number;
@@ -27,9 +27,14 @@ export interface IUser extends IBaseModel {
   clientsAsDeliveryman?: IUser[];
 }
 
+// 15000
+// 5000
+// 20000
+
 export interface IPaymentHistory extends IBaseModel {
   money: number;
   paymentType: PaymentTypeEnum;
+  itog: number;
 }
 
 export interface IProfile extends IBaseModel {
