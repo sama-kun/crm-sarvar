@@ -44,7 +44,12 @@ console.log(process.env.POSTGRES_PORT);
       useFactory: (config: ConfigService) => ({
         type: 'postgres', // Specify your DB type, e.g., 'postgres', 'mysql'
         url: config.get('DATABASE_URL'), // Get the DB URL from config
-        // Specify additional options here (entities, synchronize...)
+        host: process.env.POSTGRES_HOST,
+        port: parseInt(process.env.POSTGRES_PORT),
+        // port: process.env.POSTGRES_PORT,
+        username: process.env.POSTGRES_USER,
+        password: process.env.POSTGRES_PASSWORD,
+        database: process.env.POSTGRES_NAME,
         entities: [
           __dirname + '/../../src/database/entities/*.entity{.ts,.js}',
         ],
@@ -61,7 +66,7 @@ console.log(process.env.POSTGRES_PORT);
     //   type: 'postgres',
     //   host: process.env.POSTGRES_HOST,
     //   port: parseInt(process.env.POSTGRES_PORT),
-    //   // port: process.env.POSTGRES_PORT,
+    //   port: process.env.POSTGRES_PORT,
     //   username: process.env.POSTGRES_USER,
     //   password: process.env.POSTGRES_PASSWORD,
     //   database: process.env.POSTGRES_NAME,
