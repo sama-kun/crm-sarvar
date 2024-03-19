@@ -83,29 +83,22 @@ export abstract class BaseService<
   }
 
   async findAll(
-    pagination: any,
     sort: any,
     relations: string[],
     filter: any,
     search: any,
   ): Promise<any> {
-    let page = 1;
-    let pageSize = 10;
+    // let page = 1;
+    // let pageSize = 10;
     let convertedSearch = null;
     if (search) {
       const key = Object.keys(search)[0];
       const obj = search[key];
       convertedSearch = { [key]: Like(`%${obj}%`) };
     }
-    if (pagination && typeof pagination === 'object') {
-      page = parseInt(pagination.page, 10) || 1;
-      pageSize = parseInt(pagination.pageSize, 10) || 10;
-    }
     try {
       const records = await this.repo.find({
         order: sort,
-        skip: (page - 1) * pageSize,
-        take: pageSize,
         relations,
         where: {
           ...filter,
@@ -113,19 +106,19 @@ export abstract class BaseService<
         },
       });
 
-      const total = await this.repo.find({
-        order: sort,
-        relations,
-        where: {
-          ...filter,
-          ...convertedSearch,
-        },
-      });
-      const meta = this.createMeta(page, pageSize, total.length);
+      // const total = await this.repo.find({
+      //   order: sort,
+      //   relations,
+      //   where: {
+      //     ...filter,
+      //     ...convertedSearch,
+      //   },
+      // });
+      // const meta = this.createMeta(page, pageSize, total.length);
 
       return {
         records,
-        meta,
+        // meta,
       };
     } catch (error) {
       console.error(error);

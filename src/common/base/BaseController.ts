@@ -47,15 +47,9 @@ export abstract class BaseController<
 
   @Get()
   findAll(@Query() query: SearchDto) {
-    const { pagination, sort, relations, filter, search } = query;
+    const { sort, relations, filter, search } = query;
 
-    return this.dataService.findAll(
-      pagination,
-      sort,
-      relations,
-      filter,
-      search,
-    );
+    return this.dataService.findAll(sort, relations, filter, search);
   }
 
   @Delete(':id')
