@@ -90,13 +90,7 @@ export class UserController extends BaseController<
   @Roles(RoleEnum.USER)
   async findAll(@Query() query: SearchUserDto) {
     const { pagination, sort, relations, filter, search } = query;
-    return this.dataService.findAll(
-      pagination,
-      sort,
-      relations,
-      filter,
-      search,
-    );
+    return this.dataService.findAll(sort, relations, filter, search);
   }
 
   @ApiParam({ name: 'id', description: 'User ID' })

@@ -93,13 +93,7 @@ export class ProductController extends BaseController<
   @Roles(RoleEnum.ROOT)
   async findAll(@Query() query: SearchProductDto) {
     const { pagination, sort, relations, filter, search } = query;
-    return this.dataService.findAll(
-      pagination,
-      sort,
-      relations,
-      filter,
-      search,
-    );
+    return this.dataService.findAll(sort, relations, filter, search);
   }
 
   @ApiParam({ name: 'id', description: 'Product ID' })
