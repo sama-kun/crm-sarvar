@@ -1,13 +1,13 @@
-import { HttpException, HttpStatus, Logger } from '@nestjs/common';
-import { BaseModel } from './BaseModel';
-import { Like, ObjectLiteral, Repository, TypeORMError } from 'typeorm';
-import { UserEntity } from '@/database/entities/user.entity';
-import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-const console = new Logger('BaseService');
+import { HttpException, HttpStatus, Logger } from "@nestjs/common";
+import { BaseModel } from "./BaseModel";
+import { Like, ObjectLiteral, Repository, TypeORMError } from "typeorm";
+import { UserEntity } from "@/database/entities/user.entity";
+import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
+const console = new Logger("BaseService");
 export abstract class BaseService<
   Entity extends BaseModel & ObjectLiteral,
   CreateDto extends Partial<Entity>,
-  UpdateDto extends Partial<Entity>,
+  UpdateDto extends Partial<Entity>
 > {
   protected repo: Repository<Entity>;
 
@@ -31,8 +31,8 @@ export abstract class BaseService<
   async findOne(option: any): Promise<Entity> {
     option.relations = [
       ...((option.relations as Array<string>) || []),
-      'createdBy',
-      'updatedBy',
+      "createdBy",
+      "updatedBy",
     ];
     const record = this.repo.findOne(option);
     return record;
@@ -42,8 +42,8 @@ export abstract class BaseService<
     try {
       relations = [
         ...((relations as Array<string>) || []),
-        'createdBy',
-        'updatedBy',
+        "createdBy",
+        "updatedBy",
       ];
 
       const option: any = {
@@ -51,7 +51,7 @@ export abstract class BaseService<
       };
       const record = await this.findOne({ ...option, relations });
       if (!record)
-        throw new HttpException('Record not found', HttpStatus.NOT_FOUND);
+        throw new HttpException("Record not found", HttpStatus.NOT_FOUND);
       return record;
     } catch (e) {
       console.error(e);
@@ -62,7 +62,7 @@ export abstract class BaseService<
   async update(
     user: UserEntity = null,
     id: number,
-    data: UpdateDto,
+    data: UpdateDto
   ): Promise<Entity> {
     const record = await this.findById(id, []);
     let userId: number = null;
@@ -86,7 +86,7 @@ export abstract class BaseService<
     sort: any,
     relations: string[],
     filter: any,
-    search: any,
+    search: any
   ): Promise<any> {
     // let page = 1;
     // let pageSize = 10;
@@ -142,7 +142,7 @@ export abstract class BaseService<
     //   `Record id: ${id} was deleted by: id: ${user.id}
     //                              email: ${user.email}`,
     // );
-    return await this.repo.delete(record.id);
+    return await this.repo.delete(Number(id));
     // return record;
   }
 }
