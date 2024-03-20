@@ -57,7 +57,7 @@ export class ProductController extends BaseController<
   @ApiBody({ type: ProductEntity })
   @Post()
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.ROOT)
+  @Roles(RoleEnum.USER)
   // @UseInterceptors(FileInterceptor("file"))
   create(
     @Body() data: ProductEntity,
@@ -77,7 +77,7 @@ export class ProductController extends BaseController<
   @ApiBody({ type: ProductEntity })
   @Patch(':id')
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.ROOT)
+  @Roles(RoleEnum.USER)
   update(
     @AuthUser() user: UserEntity,
     @Param('id') id: number,
@@ -90,7 +90,7 @@ export class ProductController extends BaseController<
   @ApiQuery({ type: SearchProductDto })
   @Get()
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.ROOT)
+  @Roles(RoleEnum.USER)
   async findAll(@Query() query: SearchProductDto) {
     const { pagination, sort, relations, filter, search } = query;
     return this.dataService.findAll(sort, relations, filter, search);
@@ -104,7 +104,7 @@ export class ProductController extends BaseController<
   })
   @ApiQuery({ name: 'relations', required: false, type: Array })
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.ROOT)
+  @Roles(RoleEnum.USER)
   @Get('/:id')
   async getOne(
     @Param('id', ParseIntPipe) id: number,
