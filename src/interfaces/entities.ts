@@ -3,7 +3,7 @@ import {
   FileTypesEnum,
   PaymentTypeEnum,
   RoleEnum,
-} from './enums';
+} from "./enums";
 
 export interface IBaseModel {
   id: number;
@@ -40,7 +40,7 @@ export interface IPaymentHistory extends IBaseModel {
 
 export interface IProfile extends IBaseModel {
   debts: number;
-  paymentHistory: IPaymentHistory[];
+  paymentHistory: IPaymentHistory;
 }
 
 export interface IProduct extends IBaseModel {
@@ -61,7 +61,7 @@ export interface IBasket extends IBaseModel {
 export interface IOrder extends IBaseModel {
   amount: number;
   paymentType: PaymentTypeEnum;
-  products: IProduct[]; // [1,2,54,66]
+  baskets: IBasket[];
   owner: IUser;
   deliveryman: IUser;
 }
