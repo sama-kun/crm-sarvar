@@ -28,12 +28,16 @@ export class OrderEntity extends BaseModel {
   baskets: BasketEntity[];
 
   @ApiProperty({ type: UserEntity })
-  @ManyToOne(() => UserEntity, (user) => user.ordersAsClient)
+  @ManyToOne(() => UserEntity, (user) => user.ordersAsClient, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn()
   owner: Relation<UserEntity>;
 
   @ApiProperty()
-  @ManyToOne(() => UserEntity, (user) => user.ordersAsDeliveryman)
+  @ManyToOne(() => UserEntity, (user) => user.ordersAsDeliveryman, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn()
   deliveryman: Relation<UserEntity>;
 }
