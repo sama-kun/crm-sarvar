@@ -61,7 +61,7 @@ export class BasketController extends BaseController<
   @ApiBody({ type: BasketEntity })
   @Post()
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.ROOT)
+  @Roles(RoleEnum.USER)
   async create(@Body() data: BasketEntity, @AuthUser() user: UserEntity) {
     const product = await this.productService.findById(
       Number(data.product),
@@ -81,7 +81,7 @@ export class BasketController extends BaseController<
   @ApiBody({ type: BasketEntity })
   @Patch(':id')
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.ROOT)
+  @Roles(RoleEnum.USER)
   update(
     @AuthUser() user: UserEntity,
     @Param('id') id: number,
@@ -94,7 +94,7 @@ export class BasketController extends BaseController<
   @ApiQuery({ type: SearchBasketDto })
   @Get()
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.ROOT)
+  @Roles(RoleEnum.USER)
   async findAll(@Query() query: SearchBasketDto) {
     const { pagination, sort, relations, filter, search } = query;
     return this.dataService.findAll(sort, relations, filter, search);
@@ -108,7 +108,7 @@ export class BasketController extends BaseController<
   })
   @ApiQuery({ name: 'relations', required: false, type: Array })
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.ROOT)
+  @Roles(RoleEnum.USER)
   @Get('/:id')
   async getOne(
     @Param('id', ParseIntPipe) id: number,

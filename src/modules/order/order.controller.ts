@@ -62,7 +62,7 @@ export class OrderController extends BaseController<
   @ApiBody({ type: OrderEntity })
   @Post()
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.ROOT)
+  @Roles(RoleEnum.USER)
   async create(@Body() data: OrderEntity, @AuthUser() user: UserEntity) {
     return this.dataService.myCreate(data, user);
   }
@@ -77,7 +77,7 @@ export class OrderController extends BaseController<
   @ApiBody({ type: OrderEntity })
   @Patch(':id')
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.ROOT)
+  @Roles(RoleEnum.USER)
   update(
     @AuthUser() user: UserEntity,
     @Param('id') id: number,
@@ -90,7 +90,7 @@ export class OrderController extends BaseController<
   @ApiQuery({ type: SearchOrderDto })
   @Get()
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.ROOT)
+  @Roles(RoleEnum.USER)
   async findAll(@Query() query: SearchOrderDto) {
     const { pagination, sort, relations, filter, search } = query;
     return this.dataService.findAll(sort, relations, filter, search);
@@ -104,7 +104,7 @@ export class OrderController extends BaseController<
   })
   @ApiQuery({ name: 'relations', required: false, type: Array })
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.ROOT)
+  @Roles(RoleEnum.USER)
   @Get('/:id')
   async getOne(
     @Param('id', ParseIntPipe) id: number,
