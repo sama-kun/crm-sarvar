@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpException,
   HttpStatus,
@@ -122,5 +123,13 @@ export class UserController extends BaseController<
       where: { id: user.id },
       relations: [],
     });
+  }
+
+  @Delete('/:id')
+  @ApiBearerAuth()
+  @UseGuards(RolesQuard)
+  @Roles(RoleEnum.USER)
+  delete(@AuthUser() user: UserEntity, @Param('id') id: number) {
+    return this.dataService.delete(user, id);
   }
 }

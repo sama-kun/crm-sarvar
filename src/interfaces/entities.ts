@@ -40,7 +40,7 @@ export interface IPaymentHistory extends IBaseModel {
 
 export interface IProfile extends IBaseModel {
   debts: number;
-  paymentHistory: IPaymentHistory;
+  paymentHistory: IPaymentHistory[];
 }
 
 export interface IProduct extends IBaseModel {
@@ -61,7 +61,7 @@ export interface IBasket extends IBaseModel {
 export interface IOrder extends IBaseModel {
   amount: number;
   paymentType: PaymentTypeEnum;
-  baskets: IBasket[];
+  products: IProduct[]; // [1,2,54,66]
   owner: IUser;
   deliveryman: IUser;
 }
