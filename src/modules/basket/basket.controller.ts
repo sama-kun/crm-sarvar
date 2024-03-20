@@ -35,7 +35,7 @@ import { JwtAuthGuard } from '@/common/guards/jwt-auth.guard';
 import { ProductService } from '../product/product.service';
 
 @ApiTags('Basket')
-@Controller('Basket')
+@Controller('basket')
 @ApiBearerAuth()
 export class BasketController extends BaseController<
   BasketEntity,

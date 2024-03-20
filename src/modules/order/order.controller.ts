@@ -36,7 +36,7 @@ import { BasketService } from '../basket/basket.service';
 import { BasketEntity } from '@/database/entities/basket.entity';
 
 @ApiTags('Order')
-@Controller('Order')
+@Controller('order')
 @ApiBearerAuth()
 export class OrderController extends BaseController<
   OrderEntity,
