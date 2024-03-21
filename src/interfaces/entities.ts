@@ -26,6 +26,7 @@ export interface IUser extends IBaseModel {
   ordersAsDeliveryman?: IOrder[]; // deliveryman
   profileAsClient?: IProfile;
   clientsAsDeliveryman?: IUser[];
+  profile?: IProfile;
 }
 
 // 15000
@@ -42,6 +43,7 @@ export interface IPaymentHistory extends IBaseModel {
 export interface IProfile extends IBaseModel {
   debts: number;
   paymentHistories: IPaymentHistory[];
+  user?: IUser;
 }
 
 export interface IProduct extends IBaseModel {
@@ -55,7 +57,7 @@ export interface IProduct extends IBaseModel {
 export interface IBasket extends IBaseModel {
   product: IProduct;
   discountType: DiscountTypeEnum;
-  order: IOrder;
+  order?: IOrder;
 }
 
 export interface IOrder extends IBaseModel {

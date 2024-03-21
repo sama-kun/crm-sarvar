@@ -2,9 +2,10 @@ import { Entity, Column } from "typeorm";
 import { ApiProperty } from "@nestjs/swagger";
 import { BaseModel } from "@/common/base/BaseModel";
 import { FileTypesEnum } from "@/interfaces/enums";
+import { IFile } from "@/interfaces/entities";
 
 @Entity("file")
-export class FileEntity extends BaseModel {
+export class FileEntity extends BaseModel implements IFile {
   @ApiProperty()
   @Column()
   url: string;

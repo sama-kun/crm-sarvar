@@ -6,6 +6,7 @@ import {
   JoinColumn,
   JoinTable,
   Relation,
+  OneToOne,
 } from "typeorm";
 import { ApiProperty } from "@nestjs/swagger";
 import { BaseModel } from "@/common/base/BaseModel";
@@ -26,4 +27,8 @@ export class ProfileEntity extends BaseModel implements IProfile {
     (paymentHistory) => paymentHistory.profile
   )
   paymentHistories: PaymentHistoryEntity[];
+
+  @OneToOne(() => UserEntity, (user) => user.profile, { nullable: true }) // Specify inverse side as a second parameter
+  @JoinColumn()
+  user?: Relation<UserEntity>;
 }

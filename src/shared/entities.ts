@@ -28,6 +28,8 @@ export interface IUser extends IBaseModel {
   clientsAsDeliveryman?: IUser[];
 }
 
+//
+
 // 15000
 // 5000
 // 20000
@@ -49,13 +51,11 @@ export interface IProduct extends IBaseModel {
   standard: number;
   discount1?: number;
   discount2?: number;
-  discountType: DiscountTypeEnum;
 }
 
 export interface IBasket extends IBaseModel {
   product: IProduct;
-  quantity: number;
-  summa: number;
+  discountType: DiscountTypeEnum;
 }
 
 export interface IOrder extends IBaseModel {
@@ -64,7 +64,28 @@ export interface IOrder extends IBaseModel {
   baskets: IBasket[];
   owner: IUser;
   deliveryman: IUser;
+  confirmed: boolean;
 }
+
+/*
+  amount: 20000,
+  baskets: [
+    {
+      product: 1,
+      discountType: "standard",
+    },
+    {
+      product: 1,
+      discountType: "standard",
+    },
+  ],
+  owner: 2 // clientId
+  confirmed: false //avto
+*/
+
+/*
+
+*/
 
 export interface IFile extends IBaseModel {
   url: string;

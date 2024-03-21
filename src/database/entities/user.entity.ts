@@ -1,9 +1,17 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Entity, Column, ManyToOne, OneToMany, JoinColumn } from "typeorm";
+import {
+  Entity,
+  Column,
+  ManyToOne,
+  OneToMany,
+  JoinColumn,
+  OneToOne,
+} from "typeorm";
 import { RoleEnum } from "@/interfaces/enums";
 import { BaseModel } from "@/common/base/BaseModel";
-import { IUser } from "@/interfaces/entities";
+import { IProfile, IUser } from "@/interfaces/entities";
 import { OrderEntity } from "./order.entity";
+import { ProfileEntity } from "./profile.entity";
 
 @Entity("user")
 export class UserEntity extends BaseModel implements IUser {
@@ -55,4 +63,7 @@ export class UserEntity extends BaseModel implements IUser {
   @ApiProperty({ required: false })
   @Column({ nullable: true })
   phone?: string;
+
+  @OneToOne(() => ProfileEntity, (profile) => profile.user, { nullable: true })
+  profile?: ProfileEntity;
 }

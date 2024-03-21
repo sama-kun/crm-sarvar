@@ -13,9 +13,10 @@ import { BasketEntity } from "./basket.entity";
 import { UserEntity } from "./user.entity";
 import { PaymentTypeEnum } from "@/interfaces/enums";
 import { PaymentHistoryEntity } from "./paymentHistory.entity";
+import { IOrder } from "@/interfaces/entities";
 
 @Entity("order")
-export class OrderEntity extends BaseModel {
+export class OrderEntity extends BaseModel implements IOrder {
   @ApiProperty()
   @Column("float", { nullable: true })
   amount: number;

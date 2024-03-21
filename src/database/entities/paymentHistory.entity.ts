@@ -31,9 +31,9 @@ export class PaymentHistoryEntity extends BaseModel implements IPaymentHistory {
 
   @ManyToOne(() => OrderEntity, (order) => order.paymentHistories)
   @JoinColumn()
-  order: OrderEntity;
+  order: Relation<OrderEntity>;
 
   @ManyToOne(() => ProfileEntity, (profile) => profile.paymentHistories)
   @JoinColumn()
-  profile: ProfileEntity;
+  profile: Relation<ProfileEntity>;
 }

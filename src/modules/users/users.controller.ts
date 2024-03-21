@@ -11,15 +11,15 @@ import {
   Post,
   Query,
   UseGuards,
-} from '@nestjs/common';
-import { UserService } from './users.service';
-import { BaseController } from '@/common/base/BaseController';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { UserEntity } from '@/database/entities/user.entity';
-import { SearchUserDto } from './dto/search-user.dto';
-import { AuthUser } from '@/common/decorators/auth-user.decorator';
-import { RolesQuard } from '@/common/guards/roles.quard';
+} from "@nestjs/common";
+import { UserService } from "./users.service";
+import { BaseController } from "@/common/base/BaseController";
+import { CreateUserDto } from "./dto/create-user.dto";
+import { UpdateUserDto } from "./dto/update-user.dto";
+import { UserEntity } from "@/database/entities/user.entity";
+import { SearchUserDto } from "./dto/search-user.dto";
+import { AuthUser } from "@/common/decorators/auth-user.decorator";
+import { RolesQuard } from "@/common/guards/roles.quard";
 import {
   ApiBearerAuth,
   ApiBody,
@@ -28,13 +28,13 @@ import {
   ApiQuery,
   ApiResponse,
   ApiTags,
-} from '@nestjs/swagger';
-import { RoleEnum } from '@/interfaces/enums';
-import { Roles } from '@/common/decorators/roles-auth.decorator';
-import { JwtAuthGuard } from '@/common/guards/jwt-auth.guard';
+} from "@nestjs/swagger";
+import { RoleEnum } from "@/interfaces/enums";
+import { Roles } from "@/common/decorators/roles-auth.decorator";
+import { JwtAuthGuard } from "@/common/guards/jwt-auth.guard";
 
-@ApiTags('User')
-@Controller('user')
+@ApiTags("User")
+@Controller("user")
 @ApiBearerAuth()
 export class UserController extends BaseController<
   UserEntity,
@@ -48,11 +48,11 @@ export class UserController extends BaseController<
     this.dataService = userService;
   }
 
-  @ApiOperation({ summary: 'Create Category' })
+  @ApiOperation({ summary: "Create Category" })
   @ApiResponse({
     status: 201,
     type: UserEntity,
-    description: 'User created successfully',
+    description: "User created successfully",
   })
   @ApiBody({ type: UserEntity })
   @Post()
@@ -60,31 +60,31 @@ export class UserController extends BaseController<
   @Roles(RoleEnum.USER)
   create(
     @Body() data: UserEntity[] & UserEntity,
-    @AuthUser() user: UserEntity,
+    @AuthUser() user: UserEntity
   ) {
     return this.dataService.create(data, user);
   }
 
-  @ApiOperation({ summary: 'Update User' })
+  @ApiOperation({ summary: "Update User" })
   @ApiResponse({
     status: 201,
     type: UserEntity,
-    description: 'User updated successfully',
+    description: "User updated successfully",
   })
-  @ApiParam({ name: 'id', description: 'User ID' })
+  @ApiParam({ name: "id", description: "User ID" })
   @ApiBody({ type: UserEntity })
-  @Patch(':id')
+  @Patch(":id")
   @UseGuards(RolesQuard)
   @Roles(RoleEnum.USER)
   update(
     @AuthUser() user: UserEntity,
-    @Param('id') id: number,
-    @Body() updateUserDto: UpdateUserDto,
+    @Param("id") id: number,
+    @Body() updateUserDto: UpdateUserDto
   ) {
     return this.dataService.update(user, id, updateUserDto);
   }
 
-  @ApiOperation({ summary: 'Get all Users using query' })
+  @ApiOperation({ summary: "Get all Users using query" })
   @ApiQuery({ type: SearchUserDto })
   @Get()
   @UseGuards(RolesQuard)
@@ -94,42 +94,42 @@ export class UserController extends BaseController<
     return this.dataService.findAll(sort, relations, filter, search);
   }
 
-  @ApiParam({ name: 'id', description: 'User ID' })
-  @ApiOperation({ summary: 'Get User by id' })
+  @ApiParam({ name: "id", description: "User ID" })
+  @ApiOperation({ summary: "Get User by id" })
   @ApiResponse({
     status: 201,
     type: UserEntity,
   })
-  @ApiQuery({ name: 'relations', required: false, type: Array })
+  @ApiQuery({ name: "relations", required: false, type: Array })
   @UseGuards(RolesQuard)
   @Roles(RoleEnum.USER)
-  @Get('/:id')
+  @Get("/:id")
   async getOne(
-    @Param('id', ParseIntPipe) id: number,
-    @Query() query: SearchUserDto,
+    @Param("id", ParseIntPipe) id: number,
+    @Query() query: SearchUserDto
   ) {
     const { relations } = query;
     return this.dataService.findById(id, relations);
   }
 
-  @Get('auth/me')
+  @Get("auth/me")
   @ApiBearerAuth()
   @UseGuards(RolesQuard)
   @Roles(RoleEnum.USER)
   me(@AuthUser() user: UserEntity) {
     if (!user)
-      throw new HttpException('Токен неверный', HttpStatus.UNAUTHORIZED);
+      throw new HttpException("Токен неверный", HttpStatus.UNAUTHORIZED);
     return this.dataService.findOne({
       where: { id: user.id },
       relations: [],
     });
   }
 
-  @Delete('/:id')
+  @Delete("/:id")
   @ApiBearerAuth()
   @UseGuards(RolesQuard)
   @Roles(RoleEnum.USER)
-  delete(@AuthUser() user: UserEntity, @Param('id') id: number) {
+  delete(@AuthUser() user: UserEntity, @Param("id") id: number) {
     return this.dataService.delete(user, id);
   }
 }

@@ -4,12 +4,13 @@ import { BaseModel } from "@/common/base/BaseModel";
 import { ProductEntity } from "./product.entity";
 import { OrderEntity } from "./order.entity";
 import { DiscountTypeEnum } from "../../shared/enums";
+import { IBasket } from "@/interfaces/entities";
 
 @Entity("basket")
-export class BasketEntity extends BaseModel {
+export class BasketEntity extends BaseModel implements IBasket {
   @ManyToOne(() => ProductEntity)
   @ApiProperty({ type: ProductEntity })
-  product: ProductEntity;
+  product: Relation<ProductEntity>;
 
   @ManyToOne(() => OrderEntity, (order) => order.baskets, { nullable: true })
   @ApiProperty({ type: OrderEntity })
