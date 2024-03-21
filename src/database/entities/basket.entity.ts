@@ -14,7 +14,7 @@ export class BasketEntity extends BaseModel {
   @ManyToOne(() => OrderEntity, (order) => order.baskets, { nullable: true })
   @ApiProperty({ type: OrderEntity })
   @JoinColumn()
-  order: Relation<OrderEntity>;
+  order?: Relation<OrderEntity>;
 
   @ApiProperty({ enum: DiscountTypeEnum, default: DiscountTypeEnum.standard })
   @Column({

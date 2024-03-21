@@ -9,6 +9,7 @@ import { UserEntity } from "@/database/entities/user.entity";
 import { BasketService } from "../basket/basket.service";
 import { UserService } from "../users/users.service";
 import { RoleEnum } from "@/interfaces/enums";
+import { BasketEntity } from "@/database/entities/basket.entity";
 
 // const console = new Logger('UserService');
 
@@ -25,32 +26,26 @@ export class OrderService extends BaseService<
   ) {
     super();
   }
-  // async myCreate(data: OrderEntity, user: UserEntity): Promise<OrderEntity> {
-  //   const owner = await this.userService.findById(Number(data.owner), []);
-  //   const deliveryman = await this.userService.findById(
-  //     Number(data.deliveryman),
-  //     [],
-  //   );
-  //   if (owner.role != RoleEnum.CLIENT) {
-  //     throw Error('Owner is not client');
-  //   }
-  //   if (deliveryman.role != RoleEnum.DELIVERYMAN) {
-  //     throw Error('Deliveryman is not deliveryman');
-  //   }
-  //   const baskets = data.baskets;
-  //   let amount = 0;
-  //   delete data.baskets;
-  //   const order = await this.create(data, user);
-  //   for (let basketId of baskets) {
-  //     const basket = await this.basketService.findById(Number(basketId), []);
-  //     amount += basket.summa;
-  //     await this.basketService.update(user, Number(basketId), {
-  //       order: { id: Number(order.id) } as OrderEntity,
-  //     });
-  //   }
-  //   console.log(data);
-  //   order.amount = amount;
+  async myCreate(data: OrderEntity, user: UserEntity): Promise<OrderEntity> {
+    const owner = await this.userService.findById(Number(data.owner), [
+      "deliverymanAsClient",
+    ]);
+    if (owner.role != RoleEnum.CLIENT) {
+      throw Error("Owner is not client");
+    }
+    const baskets = data.baskets;
+    delete data.baskets;
+    const order = await this.create(
+      { ...data, deliveryman: owner.deliverymanAsClient as UserEntity },
+      user
+    );
+    for (let basket of baskets) {
+      await this.basketService.create(
+        { ...basket, order } as BasketEntity,
+        user
+      );
+    }
 
-  //   return this.repo.save(order);
-  // }
+    return this.repo.save(order);
+  }
 }
