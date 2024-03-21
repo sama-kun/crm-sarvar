@@ -12,6 +12,7 @@ import { BaseModel } from "@/common/base/BaseModel";
 import { BasketEntity } from "./basket.entity";
 import { UserEntity } from "./user.entity";
 import { PaymentTypeEnum } from "@/interfaces/enums";
+import { PaymentHistoryEntity } from "./paymentHistory.entity";
 
 @Entity("order")
 export class OrderEntity extends BaseModel {
@@ -20,12 +21,16 @@ export class OrderEntity extends BaseModel {
   amount: number;
 
   @ApiProperty()
-  @Column({ type: "enum", enum: PaymentTypeEnum })
+  @Column({
+    type: "enum",
+    enum: PaymentTypeEnum,
+    default: PaymentTypeEnum.debt,
+  })
   paymentType: PaymentTypeEnum;
 
   @ApiProperty()
-  @OneToMany(() => BasketEntity, (basket) => basket.order)
-  baskets: BasketEntity[];
+  @OneToMany(() => BasketEntity, (basket) => basket.order, { nullable: true })
+  baskets?: BasketEntity[];
 
   @ApiProperty({ type: UserEntity })
   @ManyToOne(() => UserEntity, (user) => user.ordersAsClient, {
@@ -40,4 +45,10 @@ export class OrderEntity extends BaseModel {
   })
   @JoinColumn()
   deliveryman: Relation<UserEntity>;
+
+  @OneToMany(
+    () => PaymentHistoryEntity,
+    (paymentHistory) => paymentHistory.order
+  )
+  paymentHistories: PaymentHistoryEntity[];
 }

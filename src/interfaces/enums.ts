@@ -19,4 +19,5 @@ export enum DiscountTypeEnum {
 export enum PaymentTypeEnum {
   paid = "paid",
   debt = "debt",
+  partly = "partly",
 }

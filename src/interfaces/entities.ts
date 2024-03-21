@@ -35,12 +35,13 @@ export interface IUser extends IBaseModel {
 export interface IPaymentHistory extends IBaseModel {
   money: number;
   paymentType: PaymentTypeEnum;
-  itog: number;
+  order: IOrder;
+  profile: IProfile;
 }
 
 export interface IProfile extends IBaseModel {
   debts: number;
-  paymentHistory: IPaymentHistory;
+  paymentHistories: IPaymentHistory[];
 }
 
 export interface IProduct extends IBaseModel {
@@ -49,21 +50,21 @@ export interface IProduct extends IBaseModel {
   standard: number;
   discount1?: number;
   discount2?: number;
-  discountType: DiscountTypeEnum;
 }
 
 export interface IBasket extends IBaseModel {
   product: IProduct;
-  quantity: number;
-  summa: number;
+  discountType: DiscountTypeEnum;
+  order: IOrder;
 }
 
 export interface IOrder extends IBaseModel {
   amount: number;
   paymentType: PaymentTypeEnum;
-  baskets: IBasket[];
+  baskets?: IBasket[];
   owner: IUser;
   deliveryman: IUser;
+  paymentHistories: IPaymentHistory[];
 }
 
 export interface IFile extends IBaseModel {

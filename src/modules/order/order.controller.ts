@@ -10,16 +10,16 @@ import {
   Post,
   Query,
   UseGuards,
-} from '@nestjs/common';
-import { OrderService } from './order.service';
-import { BaseController } from '@/common/base/BaseController';
-import { CreateOrderDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
-import { OrderEntity } from '@/database/entities/order.entity';
-import { UserEntity } from '@/database/entities/user.entity';
-import { SearchOrderDto } from './dto/search-order.dto';
-import { AuthUser } from '@/common/decorators/auth-user.decorator';
-import { RolesQuard } from '@/common/guards/roles.quard';
+} from "@nestjs/common";
+import { OrderService } from "./order.service";
+import { BaseController } from "@/common/base/BaseController";
+import { CreateOrderDto } from "./dto/create-order.dto";
+import { UpdateOrderDto } from "./dto/update-order.dto";
+import { OrderEntity } from "@/database/entities/order.entity";
+import { UserEntity } from "@/database/entities/user.entity";
+import { SearchOrderDto } from "./dto/search-order.dto";
+import { AuthUser } from "@/common/decorators/auth-user.decorator";
+import { RolesQuard } from "@/common/guards/roles.quard";
 import {
   ApiBearerAuth,
   ApiBody,
@@ -28,15 +28,15 @@ import {
   ApiQuery,
   ApiResponse,
   ApiTags,
-} from '@nestjs/swagger';
-import { RoleEnum } from '@/interfaces/enums';
-import { Roles } from '@/common/decorators/roles-auth.decorator';
-import { JwtAuthGuard } from '@/common/guards/jwt-auth.guard';
-import { BasketService } from '../basket/basket.service';
-import { BasketEntity } from '@/database/entities/basket.entity';
+} from "@nestjs/swagger";
+import { RoleEnum } from "@/interfaces/enums";
+import { Roles } from "@/common/decorators/roles-auth.decorator";
+import { JwtAuthGuard } from "@/common/guards/jwt-auth.guard";
+import { BasketService } from "../basket/basket.service";
+import { BasketEntity } from "@/database/entities/basket.entity";
 
-@ApiTags('Order')
-@Controller('order')
+@ApiTags("Order")
+@Controller("order")
 @ApiBearerAuth()
 export class OrderController extends BaseController<
   OrderEntity,
@@ -47,46 +47,46 @@ export class OrderController extends BaseController<
 > {
   constructor(
     private OrderService: OrderService,
-    private readonly basketService: BasketService,
+    private readonly basketService: BasketService
   ) {
     super();
     this.dataService = OrderService;
   }
 
-  @ApiOperation({ summary: 'Create Category' })
+  @ApiOperation({ summary: "Create Category" })
   @ApiResponse({
     status: 201,
     type: OrderEntity,
-    description: 'Order created successfully',
+    description: "Order created successfully",
   })
   @ApiBody({ type: OrderEntity })
   @Post()
   @UseGuards(RolesQuard)
   @Roles(RoleEnum.USER)
   async create(@Body() data: OrderEntity, @AuthUser() user: UserEntity) {
-    return this.dataService.myCreate(data, user);
+    return this.dataService.create(data, user);
   }
 
-  @ApiOperation({ summary: 'Update Order' })
+  @ApiOperation({ summary: "Update Order" })
   @ApiResponse({
     status: 201,
     type: OrderEntity,
-    description: 'Order updated successfully',
+    description: "Order updated successfully",
   })
-  @ApiParam({ name: 'id', description: 'Order ID' })
+  @ApiParam({ name: "id", description: "Order ID" })
   @ApiBody({ type: OrderEntity })
-  @Patch(':id')
+  @Patch(":id")
   @UseGuards(RolesQuard)
   @Roles(RoleEnum.USER)
   update(
     @AuthUser() user: UserEntity,
-    @Param('id') id: number,
-    @Body() updateOrderDto: UpdateOrderDto,
+    @Param("id") id: number,
+    @Body() updateOrderDto: UpdateOrderDto
   ) {
     return this.dataService.update(user, id, updateOrderDto);
   }
 
-  @ApiOperation({ summary: 'Get all Orders using query' })
+  @ApiOperation({ summary: "Get all Orders using query" })
   @ApiQuery({ type: SearchOrderDto })
   @Get()
   @UseGuards(RolesQuard)
@@ -96,19 +96,19 @@ export class OrderController extends BaseController<
     return this.dataService.findAll(sort, relations, filter, search);
   }
 
-  @ApiParam({ name: 'id', description: 'Order ID' })
-  @ApiOperation({ summary: 'Get Order by id' })
+  @ApiParam({ name: "id", description: "Order ID" })
+  @ApiOperation({ summary: "Get Order by id" })
   @ApiResponse({
     status: 201,
     type: OrderEntity,
   })
-  @ApiQuery({ name: 'relations', required: false, type: Array })
+  @ApiQuery({ name: "relations", required: false, type: Array })
   @UseGuards(RolesQuard)
   @Roles(RoleEnum.USER)
-  @Get('/:id')
+  @Get("/:id")
   async getOne(
-    @Param('id', ParseIntPipe) id: number,
-    @Query() query: SearchOrderDto,
+    @Param("id", ParseIntPipe) id: number,
+    @Query() query: SearchOrderDto
   ) {
     const { relations } = query;
     return this.dataService.findById(id, relations);

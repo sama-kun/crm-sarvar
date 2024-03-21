@@ -26,16 +26,4 @@ export class ProductEntity extends BaseModel {
   @ApiProperty({ required: false })
   @Column("float", { nullable: true })
   discount2?: number;
-
-  @ApiProperty({
-    type: "enum",
-    enum: DiscountTypeEnum,
-    default: DiscountTypeEnum.standard,
-  })
-  @Column({
-    type: "enum",
-    enum: DiscountTypeEnum,
-    default: DiscountTypeEnum.standard,
-  })
-  discountType: DiscountTypeEnum;
 }
