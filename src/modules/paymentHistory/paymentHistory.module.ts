@@ -4,6 +4,7 @@ import { PaymentHistoryService } from "./paymentHistory.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { PaymentHistoryEntity } from "@/database/entities/paymentHistory.entity";
 import { AuthModule } from "../auth/auth.module";
+import { ProfileModule } from "../profile/profile.module";
 
 @Module({
   controllers: [PaymentHistoryController],
@@ -12,6 +13,7 @@ import { AuthModule } from "../auth/auth.module";
     // MongooseModule.forFeature([{ name: 'User', schema: UserSchema }])
     TypeOrmModule.forFeature([PaymentHistoryEntity]),
     forwardRef(() => AuthModule),
+    ProfileModule,
   ],
   exports: [PaymentHistoryService],
 })

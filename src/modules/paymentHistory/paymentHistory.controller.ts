@@ -64,7 +64,7 @@ export class PaymentHistoryController extends BaseController<
     @AuthUser() user: UserEntity
     // @UploadedFile() file: Express.Multer.File
   ) {
-    return this.dataService.create(data, user);
+    return this.dataService.myCreate(data, user);
   }
 
   @ApiOperation({ summary: "Update PaymentHistory" })

@@ -32,6 +32,8 @@ import {
 import { RoleEnum } from "@/interfaces/enums";
 import { Roles } from "@/common/decorators/roles-auth.decorator";
 import { JwtAuthGuard } from "@/common/guards/jwt-auth.guard";
+import { ProfileService } from "../profile/profile.service";
+import { ProfileEntity } from "@/database/entities/profile.entity";
 
 @ApiTags("User")
 @Controller("user")
@@ -43,7 +45,10 @@ export class UserController extends BaseController<
   SearchUserDto,
   UserService
 > {
-  constructor(private userService: UserService) {
+  constructor(
+    private userService: UserService,
+    private readonly profileService: ProfileService
+  ) {
     super();
     this.dataService = userService;
   }
@@ -58,11 +63,19 @@ export class UserController extends BaseController<
   @Post()
   @UseGuards(RolesQuard)
   @Roles(RoleEnum.USER)
-  create(
+  async create(
     @Body() data: UserEntity[] & UserEntity,
     @AuthUser() user: UserEntity
   ) {
-    return this.dataService.create(data, user);
+    if (data.role === RoleEnum.USER) {
+      throw new HttpException("You cant create a user", HttpStatus.FORBIDDEN);
+    }
+    const newUser = await this.dataService.create(data, user);
+    this.profileService.create({
+      debts: 0,
+      user: newUser,
+    });
+    return newUser;
   }
 
   @ApiOperation({ summary: "Update User" })

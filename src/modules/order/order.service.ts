@@ -8,8 +8,10 @@ import { Repository } from "typeorm";
 import { UserEntity } from "@/database/entities/user.entity";
 import { BasketService } from "../basket/basket.service";
 import { UserService } from "../users/users.service";
-import { RoleEnum } from "@/interfaces/enums";
+import { PaymentTypeEnum, RoleEnum } from "@/interfaces/enums";
 import { BasketEntity } from "@/database/entities/basket.entity";
+import { PaymentHistoryService } from "../paymentHistory/paymentHistory.service";
+import { ProfileEntity } from "@/database/entities/profile.entity";
 
 // const console = new Logger('UserService');
 
@@ -22,13 +24,15 @@ export class OrderService extends BaseService<
   constructor(
     @InjectRepository(OrderEntity) protected repo: Repository<OrderEntity>,
     private readonly basketService: BasketService,
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    private readonly paymentHistory: PaymentHistoryService
   ) {
     super();
   }
   async myCreate(data: OrderEntity, user: UserEntity): Promise<OrderEntity> {
     const owner = await this.userService.findById(Number(data.owner), [
       "deliverymanAsClient",
+      "profile",
     ]);
     if (owner.role != RoleEnum.CLIENT) {
       throw Error("Owner is not client");
@@ -45,6 +49,16 @@ export class OrderService extends BaseService<
         user
       );
     }
+
+    await this.paymentHistory.orderDebt(
+      {
+        money: order.amount,
+        paymentType: PaymentTypeEnum.debt,
+        orderId: Number(order.id),
+        profileId: Number(owner.profile.id),
+      },
+      user
+    );
 
     return this.repo.save(order);
   }

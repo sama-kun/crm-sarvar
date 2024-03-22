@@ -6,6 +6,7 @@ import { OrderEntity } from "@/database/entities/order.entity";
 import { AuthModule } from "../auth/auth.module";
 import { BasketModule } from "../basket/basket.module";
 import { UserModule } from "../users/users.module";
+import { PaymentHistoryModule } from "../paymentHistory/paymentHistory.module";
 
 @Module({
   controllers: [OrderController],
@@ -16,6 +17,7 @@ import { UserModule } from "../users/users.module";
     forwardRef(() => AuthModule),
     BasketModule,
     UserModule,
+    PaymentHistoryModule,
   ],
   exports: [OrderService],
 })
