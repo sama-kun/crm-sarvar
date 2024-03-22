@@ -70,11 +70,14 @@ export class UserController extends BaseController<
     if (data.role === RoleEnum.USER) {
       throw new HttpException("You cant create a user", HttpStatus.FORBIDDEN);
     }
+
     const newUser = await this.dataService.create(data, user);
-    this.profileService.create({
-      debts: 0,
-      user: newUser,
-    });
+    if (data.role === RoleEnum.CLIENT) {
+      await this.profileService.create({
+        debts: 0,
+        user: newUser,
+      });
+    }
     return newUser;
   }
 
