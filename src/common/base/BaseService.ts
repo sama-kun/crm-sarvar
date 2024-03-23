@@ -1,6 +1,12 @@
 import { HttpException, HttpStatus, Logger } from "@nestjs/common";
 import { BaseModel } from "./BaseModel";
-import { Like, ObjectLiteral, Repository, TypeORMError } from "typeorm";
+import {
+  Like,
+  ObjectLiteral,
+  Repository,
+  TypeORMError,
+  Between,
+} from "typeorm";
 import { UserEntity } from "@/database/entities/user.entity";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 const console = new Logger("BaseService");
@@ -86,16 +92,24 @@ export abstract class BaseService<
     sort: any,
     relations: string[],
     filter: any,
-    search: any
+    search: any,
+    dateFilter?: { startDate: Date; endDate: Date } // Добавленный параметр для фильтрации по дате
   ): Promise<any> {
-    // let page = 1;
-    // let pageSize = 10;
     let convertedSearch = null;
     if (search) {
       const key = Object.keys(search)[0];
       const obj = search[key];
       convertedSearch = { [key]: Like(`%${obj}%`) };
     }
+
+    // Создание условия для фильтрации по дате
+    let dateConditions = {};
+    if (dateFilter && dateFilter.startDate && dateFilter.endDate) {
+      dateConditions = {
+        createdAt: Between(dateFilter.startDate, dateFilter.endDate), // Или updatedAt, в зависимости от того, что вам нужно
+      };
+    }
+
     try {
       const records = await this.repo.find({
         order: sort,
@@ -103,22 +117,12 @@ export abstract class BaseService<
         where: {
           ...filter,
           ...convertedSearch,
+          ...dateConditions, // Добавление условий фильтрации по дате к остальным условиям
         },
       });
 
-      // const total = await this.repo.find({
-      //   order: sort,
-      //   relations,
-      //   where: {
-      //     ...filter,
-      //     ...convertedSearch,
-      //   },
-      // });
-      // const meta = this.createMeta(page, pageSize, total.length);
-
       return {
         records,
-        // meta,
       };
     } catch (error) {
       console.error(error);

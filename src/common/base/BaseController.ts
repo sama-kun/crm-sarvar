@@ -8,20 +8,20 @@ import {
   Get,
   Query,
   Delete,
-} from '@nestjs/common';
-import { BaseService } from './BaseService';
-import { SearchQueryDto } from './dto/search-query.dto';
-import { ObjectLiteral } from 'typeorm';
-import { BaseModel } from './BaseModel';
-import { AuthUser } from '../decorators/auth-user.decorator';
-import { UserEntity } from '@/database/entities/user.entity';
+} from "@nestjs/common";
+import { BaseService } from "./BaseService";
+import { SearchQueryDto } from "./dto/search-query.dto";
+import { ObjectLiteral } from "typeorm";
+import { BaseModel } from "./BaseModel";
+import { AuthUser } from "../decorators/auth-user.decorator";
+import { UserEntity } from "@/database/entities/user.entity";
 @Controller()
 export abstract class BaseController<
   Entity extends BaseModel & ObjectLiteral,
   CreateDto extends Partial<Entity>,
   UpdateDto extends Partial<Entity>,
   SearchDto extends Partial<Entity & SearchQueryDto>,
-  DataService extends Partial<BaseService<Entity, CreateDto, UpdateDto>>,
+  DataService extends Partial<BaseService<Entity, CreateDto, UpdateDto>>
 > {
   public dataService: DataService;
 
@@ -30,30 +30,36 @@ export abstract class BaseController<
     return this.dataService.create(data, user);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: number, @Query() query: SearchDto) {
+  @Get(":id")
+  findOne(@Param("id") id: number, @Query() query: SearchDto) {
     const { relations } = query;
     return this.dataService.findById(id, relations);
   }
 
-  @Patch(':id')
+  @Patch(":id")
   update(
     @AuthUser() user: UserEntity,
-    @Param('id', ParseIntPipe) id: number,
-    @Body() updateDto: UpdateDto,
+    @Param("id", ParseIntPipe) id: number,
+    @Body() updateDto: UpdateDto
   ) {
     return this.dataService.update(user, id, updateDto);
   }
 
   @Get()
   findAll(@Query() query: SearchDto) {
-    const { sort, relations, filter, search } = query;
+    const { sort, relations, filter, search, dateFilter } = query;
 
-    return this.dataService.findAll(sort, relations, filter, search);
+    return this.dataService.findAll(
+      sort,
+      relations,
+      filter,
+      search,
+      dateFilter
+    );
   }
 
-  @Delete(':id')
-  delete(@AuthUser() user: UserEntity, @Param('id') id: number) {
+  @Delete(":id")
+  delete(@AuthUser() user: UserEntity, @Param("id") id: number) {
     return this.dataService.delete(user, id);
   }
 }
