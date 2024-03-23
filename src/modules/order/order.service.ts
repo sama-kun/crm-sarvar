@@ -58,7 +58,7 @@ export class OrderService extends BaseService<
         debts: 0,
         user: { id: owner.id } as UserEntity,
       });
-    } else profile = owner.profile.id;
+    } else profile = owner.profile;
 
     console.log("profile", profile.id);
     console.log("owner", owner);
