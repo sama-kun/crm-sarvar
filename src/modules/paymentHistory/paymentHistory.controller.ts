@@ -92,8 +92,14 @@ export class PaymentHistoryController extends BaseController<
   @UseGuards(RolesQuard)
   @Roles(RoleEnum.USER)
   async findAll(@Query() query: SearchPaymentHistoryDto) {
-    const { pagination, sort, relations, filter, search } = query;
-    return this.dataService.findAll(sort, relations, filter, search);
+    const { pagination, sort, relations, filter, search, dateFilter } = query;
+    return this.dataService.findAll(
+      sort,
+      relations,
+      filter,
+      search,
+      dateFilter
+    );
   }
 
   @ApiParam({ name: "id", description: "PaymentHistory ID" })
