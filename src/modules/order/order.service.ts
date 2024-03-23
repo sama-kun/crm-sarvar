@@ -61,6 +61,7 @@ export class OrderService extends BaseService<
     } else profile = owner.profile.id;
 
     console.log("profile", profile.id);
+    console.log("owner", owner);
 
     await this.paymentHistory.orderDebt(
       {
