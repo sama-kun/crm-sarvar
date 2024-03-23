@@ -50,6 +50,8 @@ export class OrderService extends BaseService<
       );
     }
 
+    console.log(owner.profile.id);
+
     await this.paymentHistory.orderDebt(
       {
         money: order.amount,
