@@ -113,6 +113,8 @@ export abstract class BaseService<
       };
     }
 
+    console.log(dateConditions);
+
     try {
       const records = await this.repo.find({
         order: sort,

@@ -48,7 +48,7 @@ export abstract class BaseController<
   @Get()
   findAll(@Query() query: SearchDto) {
     const { sort, relations, filter, search, dateFilter } = query;
-
+    console.log(dateFilter);
     return this.dataService.findAll(
       sort,
       relations,
