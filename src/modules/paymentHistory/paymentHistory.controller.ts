@@ -34,7 +34,7 @@ import { Roles } from "@/common/decorators/roles-auth.decorator";
 import { FileInterceptor, FilesInterceptor } from "@nestjs/platform-express";
 
 @ApiTags("PaymentHistory")
-@Controller("paymentHistory")
+@Controller("payment-history")
 @ApiBearerAuth()
 export class PaymentHistoryController extends BaseController<
   PaymentHistoryEntity,

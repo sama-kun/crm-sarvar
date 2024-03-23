@@ -92,8 +92,14 @@ export class OrderController extends BaseController<
   @UseGuards(RolesQuard)
   @Roles(RoleEnum.USER)
   async findAll(@Query() query: SearchOrderDto) {
-    const { pagination, sort, relations, filter, search } = query;
-    return this.dataService.findAll(sort, relations, filter, search);
+    const { pagination, sort, relations, filter, search, dateFilter } = query;
+    return this.dataService.findAll(
+      sort,
+      relations,
+      filter,
+      search,
+      dateFilter
+    );
   }
 
   @ApiParam({ name: "id", description: "Order ID" })

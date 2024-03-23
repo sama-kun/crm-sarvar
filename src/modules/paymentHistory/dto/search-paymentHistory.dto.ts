@@ -6,4 +6,5 @@ export class SearchPaymentHistoryDto extends PartialType(
   IntersectionType(PaymentHistoryEntity, SearchQueryDto)
 ) {
   sort?: Partial<PaymentHistoryEntity>;
+  dateFilter?: { startDate: any; endDate: any };
 }

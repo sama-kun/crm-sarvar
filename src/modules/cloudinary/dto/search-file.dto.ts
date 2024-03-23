@@ -17,4 +17,7 @@ export class SearchFileDto extends PartialType(
 
   @ApiPropertyOptional({ type: FileEntity })
   search?: Partial<FileEntity>;
+
+  @ApiPropertyOptional({ type: FileEntity })
+  dateFilter?: { startDate: any; endDate: any };
 }

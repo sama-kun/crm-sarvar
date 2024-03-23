@@ -96,8 +96,14 @@ export class BasketController extends BaseController<
   @UseGuards(RolesQuard)
   @Roles(RoleEnum.USER)
   async findAll(@Query() query: SearchBasketDto) {
-    const { pagination, sort, relations, filter, search } = query;
-    return this.dataService.findAll(sort, relations, filter, search);
+    const { pagination, sort, relations, filter, search, dateFilter } = query;
+    return this.dataService.findAll(
+      sort,
+      relations,
+      filter,
+      search,
+      dateFilter
+    );
   }
 
   @ApiParam({ name: "id", description: "Basket ID" })

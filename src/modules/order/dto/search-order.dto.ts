@@ -6,4 +6,5 @@ export class SearchOrderDto extends PartialType(
   IntersectionType(OrderEntity, SearchQueryDto)
 ) {
   sort?: Partial<OrderEntity>;
+  dateFilter?: { startDate: any; endDate: any };
 }
