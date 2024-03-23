@@ -60,7 +60,7 @@ export class OrderService extends BaseService<
       });
     } else profile = owner.profile.id;
 
-    console.log(profile.id);
+    console.log("profile", profile.id);
 
     await this.paymentHistory.orderDebt(
       {

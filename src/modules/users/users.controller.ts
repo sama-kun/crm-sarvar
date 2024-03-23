@@ -75,7 +75,7 @@ export class UserController extends BaseController<
     if (data.role === RoleEnum.CLIENT) {
       await this.profileService.create({
         debts: 0,
-        user: newUser,
+        user: { id: Number(newUser.id) } as UserEntity,
       });
     }
     return newUser;
