@@ -7,6 +7,7 @@ import { AuthModule } from "../auth/auth.module";
 import { BasketModule } from "../basket/basket.module";
 import { UserModule } from "../users/users.module";
 import { PaymentHistoryModule } from "../paymentHistory/paymentHistory.module";
+import { ProfileModule } from "../profile/profile.module";
 
 @Module({
   controllers: [OrderController],
@@ -18,6 +19,7 @@ import { PaymentHistoryModule } from "../paymentHistory/paymentHistory.module";
     BasketModule,
     UserModule,
     PaymentHistoryModule,
+    ProfileModule,
   ],
   exports: [OrderService],
 })

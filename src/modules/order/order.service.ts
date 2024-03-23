@@ -12,6 +12,7 @@ import { PaymentTypeEnum, RoleEnum } from "@/interfaces/enums";
 import { BasketEntity } from "@/database/entities/basket.entity";
 import { PaymentHistoryService } from "../paymentHistory/paymentHistory.service";
 import { ProfileEntity } from "@/database/entities/profile.entity";
+import { ProfileService } from "../profile/profile.service";
 
 // const console = new Logger('UserService');
 
@@ -25,7 +26,8 @@ export class OrderService extends BaseService<
     @InjectRepository(OrderEntity) protected repo: Repository<OrderEntity>,
     private readonly basketService: BasketService,
     private readonly userService: UserService,
-    private readonly paymentHistory: PaymentHistoryService
+    private readonly paymentHistory: PaymentHistoryService,
+    private readonly profile: ProfileService
   ) {
     super();
   }
@@ -50,14 +52,22 @@ export class OrderService extends BaseService<
       );
     }
 
-    console.log(owner.profile.id);
+    let profile: any = {};
+    if (!owner.profile) {
+      profile = await this.profile.create({
+        debts: 0,
+        user: { id: owner.id } as UserEntity,
+      });
+    } else profile = owner.profile.id;
+
+    console.log(profile.id);
 
     await this.paymentHistory.orderDebt(
       {
         money: order.amount,
         paymentType: PaymentTypeEnum.debt,
         orderId: Number(order.id),
-        profileId: Number(owner.profile.id),
+        profileId: Number(profile.id),
       },
       user
     );

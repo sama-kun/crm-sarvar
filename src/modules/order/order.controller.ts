@@ -64,7 +64,7 @@ export class OrderController extends BaseController<
   @UseGuards(RolesQuard)
   @Roles(RoleEnum.USER)
   async create(@Body() data: OrderEntity, @AuthUser() user: UserEntity) {
-    return this.dataService.create(data, user);
+    return this.dataService.myCreate(data, user);
   }
 
   @ApiOperation({ summary: "Update Order" })
