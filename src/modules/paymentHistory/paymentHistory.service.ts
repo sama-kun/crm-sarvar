@@ -52,14 +52,13 @@ export class PaymentHistoryService extends BaseService<
     if (!data.profile) throw new HttpException("Profile dont found", 403);
     const payment = await this.create(data as PaymentHistoryEntity, user);
     console.log("payment.profile.id", payment.profile.id);
-    const profile = await this.profileService.findById(payment.profile.id, []);
-    const newProfile = await this.profileService.update(
-      user,
-      payment.profile.id,
-      {
-        debts: profile.debts + payment.money,
-      }
+    const profile = await this.profileService.findById(
+      Number(data.profile),
+      []
     );
+    const newProfile = await this.profileService.update(user, Number(profile), {
+      debts: profile.debts + payment.money,
+    });
     console.log("newProfile", newProfile);
     return payment;
   }
