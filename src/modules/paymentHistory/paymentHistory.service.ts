@@ -51,14 +51,18 @@ export class PaymentHistoryService extends BaseService<
   async orderDebt(data: any, user?: UserEntity): Promise<PaymentHistoryEntity> {
     if (!data.profile) throw new HttpException("Profile dont found", 403);
     const payment = await this.create(data as PaymentHistoryEntity, user);
-    console.log("payment.profile.id", payment.profile.id);
+    console.log("payment.profile.id", payment);
     const profile = await this.profileService.findById(
       Number(data.profile),
       []
     );
-    const newProfile = await this.profileService.update(user, Number(profile), {
-      debts: profile.debts + payment.money,
-    });
+    const newProfile = await this.profileService.update(
+      user,
+      Number(profile.id),
+      {
+        debts: profile.debts + payment.money,
+      }
+    );
     console.log("newProfile", newProfile);
     return payment;
   }

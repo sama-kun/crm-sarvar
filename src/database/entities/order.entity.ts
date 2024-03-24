@@ -30,7 +30,10 @@ export class OrderEntity extends BaseModel implements IOrder {
   paymentType: PaymentTypeEnum;
 
   @ApiProperty()
-  @OneToMany(() => BasketEntity, (basket) => basket.order, { nullable: true })
+  @OneToMany(() => BasketEntity, (basket) => basket.order, {
+    nullable: true,
+    cascade: ["remove"],
+  })
   baskets?: BasketEntity[];
 
   @ApiProperty({ type: UserEntity })

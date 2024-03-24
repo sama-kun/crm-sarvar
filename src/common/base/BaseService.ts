@@ -151,7 +151,7 @@ export abstract class BaseService<
     //   `Record id: ${id} was deleted by: id: ${user.id}
     //                              email: ${user.email}`,
     // );
-    return await this.repo.delete(Number(id));
+    return await this.repo.delete(id);
     // return record;
   }
 }
