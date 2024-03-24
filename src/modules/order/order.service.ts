@@ -68,8 +68,8 @@ export class OrderService extends BaseService<
       {
         money: order.amount,
         paymentType: PaymentTypeEnum.debt,
-        orderId: Number(order.id),
-        profileId: Number(profile.id),
+        order: Number(order.id),
+        profile: Number(profile.id),
       },
       user
     );
