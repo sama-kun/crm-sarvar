@@ -26,7 +26,7 @@ export class OrderService extends BaseService<
     @InjectRepository(OrderEntity) protected repo: Repository<OrderEntity>,
     private readonly basketService: BasketService,
     private readonly userService: UserService,
-    private readonly paymentHistory: PaymentHistoryService,
+    private readonly paymentHistoryService: PaymentHistoryService,
     private readonly profile: ProfileService
   ) {
     super();
@@ -64,7 +64,7 @@ export class OrderService extends BaseService<
     console.log("owner", owner);
     console.log("order", order);
 
-    await this.paymentHistory.orderDebt({
+    await this.paymentHistoryService.orderDebt({
       money: order.amount,
       paymentType: PaymentTypeEnum.debt,
       order: Number(order.id),
