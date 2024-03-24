@@ -22,6 +22,10 @@ export class OrderEntity extends BaseModel implements IOrder {
   amount: number;
 
   @ApiProperty()
+  @Column("float", { nullable: true })
+  remains: number;
+
+  @ApiProperty()
   @Column({
     type: "enum",
     enum: PaymentTypeEnum,

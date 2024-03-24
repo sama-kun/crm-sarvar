@@ -4,6 +4,7 @@ import { ProductService } from "./product.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ProductEntity } from "@/database/entities/product.entity";
 import { AuthModule } from "../auth/auth.module";
+import { OrderModule } from "../order/order.module";
 
 @Module({
   controllers: [ProductController],
@@ -12,6 +13,7 @@ import { AuthModule } from "../auth/auth.module";
     // MongooseModule.forFeature([{ name: 'User', schema: UserSchema }])
     TypeOrmModule.forFeature([ProductEntity]),
     forwardRef(() => AuthModule),
+    // OrderModule,
   ],
   exports: [ProductService],
 })

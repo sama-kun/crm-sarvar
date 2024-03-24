@@ -4,6 +4,7 @@ import { ProfileService } from "./profile.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ProfileEntity } from "@/database/entities/profile.entity";
 import { AuthModule } from "../auth/auth.module";
+import { OrderModule } from "../order/order.module";
 
 @Module({
   controllers: [ProfileController],

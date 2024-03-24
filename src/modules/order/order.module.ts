@@ -14,12 +14,12 @@ import { ProfileModule } from "../profile/profile.module";
   providers: [OrderService],
   imports: [
     // MongooseModule.forFeature([{ name: 'User', schema: UserSchema }])
-    TypeOrmModule.forFeature([OrderEntity]),
+    PaymentHistoryModule,
     forwardRef(() => AuthModule),
     BasketModule,
     UserModule,
-    forwardRef(() => PaymentHistoryModule),
-    ProfileModule,
+    TypeOrmModule.forFeature([OrderEntity]),
+    // ProfileModule,
   ],
   exports: [OrderService],
 })

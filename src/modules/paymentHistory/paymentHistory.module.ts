@@ -11,11 +11,11 @@ import { OrderModule } from "../order/order.module";
   controllers: [PaymentHistoryController],
   providers: [PaymentHistoryService],
   imports: [
-    // MongooseModule.forFeature([{ name: 'User', schema: UserSchema }])
+    // forwardRef(() => OrderModule),
     TypeOrmModule.forFeature([PaymentHistoryEntity]),
     forwardRef(() => AuthModule),
     ProfileModule,
-    // forwardRef(() => OrderModule),
+    forwardRef(() => OrderModule),
   ],
   exports: [PaymentHistoryService],
 })

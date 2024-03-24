@@ -5,6 +5,8 @@ import { CreateProfileDto } from "./dto/create-profile.dto";
 import { UpdateProfileDto } from "./dto/update-profile.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
+import { OrderService } from "../order/order.service";
+import { Inject, forwardRef } from "@nestjs/common";
 // const console = new Logger('UserService');
 
 @Injectable()

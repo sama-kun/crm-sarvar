@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class Initail1711243983970 implements MigrationInterface {
-  name = "Initail1711243983970";
+export class Initial1711250034134 implements MigrationInterface {
+  name = "Initial1711250034134";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
@@ -32,7 +32,7 @@ export class Initail1711243983970 implements MigrationInterface {
       `CREATE TYPE "public"."order_paymenttype_enum" AS ENUM('paid', 'debt', 'partly')`
     );
     await queryRunner.query(
-      `CREATE TABLE "order" ("id" SERIAL NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "amount" double precision, "paymentType" "public"."order_paymenttype_enum" NOT NULL DEFAULT 'debt', "updatedById" integer, "createdById" integer, "ownerId" integer, "deliverymanId" integer, CONSTRAINT "PK_1031171c13130102495201e3e20" PRIMARY KEY ("id"))`
+      `CREATE TABLE "order" ("id" SERIAL NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "amount" double precision, "remains" double precision, "paymentType" "public"."order_paymenttype_enum" NOT NULL DEFAULT 'debt', "updatedById" integer, "createdById" integer, "ownerId" integer, "deliverymanId" integer, CONSTRAINT "PK_1031171c13130102495201e3e20" PRIMARY KEY ("id"))`
     );
     await queryRunner.query(
       `CREATE TYPE "public"."user_role_enum" AS ENUM('user', 'deliveryman', 'client', 'root')`

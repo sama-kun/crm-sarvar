@@ -26,8 +26,7 @@ export class OrderService extends BaseService<
     @InjectRepository(OrderEntity) protected repo: Repository<OrderEntity>,
     private readonly basketService: BasketService,
     private readonly userService: UserService,
-    private readonly paymentHistoryService: PaymentHistoryService,
-    private readonly profile: ProfileService
+    private readonly paymentHistoryService: PaymentHistoryService // private readonly profile: ProfileService
   ) {
     super();
   }
@@ -40,6 +39,7 @@ export class OrderService extends BaseService<
       throw Error("Owner is not client");
     }
     const baskets = data.baskets;
+    data.remains = data.amount;
     delete data.baskets;
     const order = await this.create(
       { ...data, deliveryman: owner.deliverymanAsClient as UserEntity },
@@ -53,12 +53,13 @@ export class OrderService extends BaseService<
     }
 
     let profile: any = {};
-    if (!owner.profile) {
-      profile = await this.profile.create({
-        debts: 0,
-        user: { id: owner.id } as UserEntity,
-      });
-    } else profile = owner.profile;
+    // if (!owner.profile) {
+    //   profile = await this.profile.create({
+    //     debts: 0,
+    //     user: { id: owner.id } as UserEntity,
+    //   });
+    // } else profile = owner.profile;
+    profile = owner.profile;
 
     console.log("profile", profile.id);
     console.log("owner", owner);
