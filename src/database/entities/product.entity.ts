@@ -7,7 +7,7 @@ import { DiscountTypeEnum } from "@/interfaces/enums";
 @Entity("product")
 export class ProductEntity extends BaseModel {
   @ApiProperty({ type: FileEntity })
-  @ManyToOne(() => FileEntity)
+  @ManyToOne(() => FileEntity, { onDelete: "CASCADE" })
   @JoinColumn()
   image: FileEntity;
 
