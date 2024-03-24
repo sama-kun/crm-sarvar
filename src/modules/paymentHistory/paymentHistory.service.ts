@@ -37,15 +37,16 @@ export class PaymentHistoryService extends BaseService<
     const history = await this.findById(payment.id, ["order", "profile"]);
     const profile = await this.profileService.findById(history.profile.id, []);
     if (data.money === history.order.amount) {
-      payment.paymentType = PaymentTypeEnum.paid;
+      history.paymentType = PaymentTypeEnum.paid;
     } else if (data.money < history.order.amount) {
-      payment.paymentType = PaymentTypeEnum.partly;
+      history.paymentType = PaymentTypeEnum.partly;
     }
     // if (payment.paymentType === PaymentTypeEnum.paid) {
     await this.profileService.update(user, history.profile.id, {
       debts: profile.debts - history.money,
     });
     // }
+    await this.repo.save(history);
     return history;
   }
 
