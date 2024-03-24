@@ -32,7 +32,7 @@ export class OrderEntity extends BaseModel implements IOrder {
   @ApiProperty()
   @OneToMany(() => BasketEntity, (basket) => basket.order, {
     nullable: true,
-    cascade: ["remove"],
+    onDelete: "CASCADE",
   })
   baskets?: BasketEntity[];
 
@@ -52,7 +52,8 @@ export class OrderEntity extends BaseModel implements IOrder {
 
   @OneToMany(
     () => PaymentHistoryEntity,
-    (paymentHistory) => paymentHistory.order
+    (paymentHistory) => paymentHistory.order,
+    { onDelete: "CASCADE" }
   )
   paymentHistories: PaymentHistoryEntity[];
 }

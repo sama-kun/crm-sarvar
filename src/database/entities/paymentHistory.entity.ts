@@ -29,11 +29,15 @@ export class PaymentHistoryEntity extends BaseModel implements IPaymentHistory {
   })
   paymentType: PaymentTypeEnum;
 
-  @ManyToOne(() => OrderEntity, (order) => order.paymentHistories)
+  @ManyToOne(() => OrderEntity, (order) => order.paymentHistories, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn()
   order: Relation<OrderEntity>;
 
-  @ManyToOne(() => ProfileEntity, (profile) => profile.paymentHistories)
+  @ManyToOne(() => ProfileEntity, (profile) => profile.paymentHistories, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn()
   profile: Relation<ProfileEntity>;
 }

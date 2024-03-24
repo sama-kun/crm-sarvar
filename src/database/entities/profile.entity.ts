@@ -24,11 +24,15 @@ export class ProfileEntity extends BaseModel implements IProfile {
 
   @OneToMany(
     () => PaymentHistoryEntity,
-    (paymentHistory) => paymentHistory.profile
+    (paymentHistory) => paymentHistory.profile,
+    { onDelete: "CASCADE" }
   )
   paymentHistories: PaymentHistoryEntity[];
 
-  @OneToOne(() => UserEntity, (user) => user.profile, { nullable: true }) // Specify inverse side as a second parameter
+  @OneToOne(() => UserEntity, (user) => user.profile, {
+    nullable: true,
+    onDelete: "CASCADE",
+  }) // Specify inverse side as a second parameter
   @JoinColumn()
   user?: Relation<UserEntity>;
 }

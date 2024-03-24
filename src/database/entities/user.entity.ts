@@ -42,21 +42,25 @@ export class UserEntity extends BaseModel implements IUser {
   @ApiProperty({ type: UserEntity })
   @ManyToOne(() => UserEntity, (user) => user.clientsAsDeliveryman, {
     nullable: true,
+    onDelete: "CASCADE",
   })
   @JoinColumn()
   deliverymanAsClient?: IUser; // Adjusting the type to IUser
 
   @OneToMany(() => UserEntity, (user) => user.deliverymanAsClient, {
     nullable: true,
+    onDelete: "CASCADE",
   })
   @ApiProperty({ type: UserEntity, isArray: true })
   clientsAsDeliveryman?: IUser[]; // Adjusting the type to IUser[]
 
-  @OneToMany(() => OrderEntity, (order) => order.owner)
+  @OneToMany(() => OrderEntity, (order) => order.owner, { onDelete: "CASCADE" })
   @ApiProperty({ type: OrderEntity, isArray: true })
   ordersAsClient: OrderEntity[]; // Adjusting the type to IOrder[]
 
-  @OneToMany(() => OrderEntity, (order) => order.deliveryman)
+  @OneToMany(() => OrderEntity, (order) => order.deliveryman, {
+    onDelete: "CASCADE",
+  })
   @ApiProperty({ type: OrderEntity, isArray: true })
   ordersAsDeliveryman: OrderEntity[];
 
@@ -64,6 +68,9 @@ export class UserEntity extends BaseModel implements IUser {
   @Column({ nullable: true })
   phone?: string;
 
-  @OneToOne(() => ProfileEntity, (profile) => profile.user, { nullable: true })
+  @OneToOne(() => ProfileEntity, (profile) => profile.user, {
+    nullable: true,
+    onDelete: "CASCADE",
+  })
   profile?: ProfileEntity;
 }

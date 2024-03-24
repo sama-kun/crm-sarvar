@@ -5,6 +5,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { PaymentHistoryEntity } from "@/database/entities/paymentHistory.entity";
 import { AuthModule } from "../auth/auth.module";
 import { ProfileModule } from "../profile/profile.module";
+import { OrderModule } from "../order/order.module";
 
 @Module({
   controllers: [PaymentHistoryController],
@@ -14,6 +15,7 @@ import { ProfileModule } from "../profile/profile.module";
     TypeOrmModule.forFeature([PaymentHistoryEntity]),
     forwardRef(() => AuthModule),
     ProfileModule,
+    // forwardRef(() => OrderModule),
   ],
   exports: [PaymentHistoryService],
 })

@@ -18,7 +18,7 @@ import { ProfileModule } from "../profile/profile.module";
     forwardRef(() => AuthModule),
     BasketModule,
     UserModule,
-    PaymentHistoryModule,
+    forwardRef(() => PaymentHistoryModule),
     ProfileModule,
   ],
   exports: [OrderService],

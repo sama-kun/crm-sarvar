@@ -8,11 +8,14 @@ import { IBasket } from "@/interfaces/entities";
 
 @Entity("basket")
 export class BasketEntity extends BaseModel implements IBasket {
-  @ManyToOne(() => ProductEntity)
+  @ManyToOne(() => ProductEntity, { onDelete: "CASCADE" })
   @ApiProperty({ type: ProductEntity })
   product: Relation<ProductEntity>;
 
-  @ManyToOne(() => OrderEntity, (order) => order.baskets, { nullable: true })
+  @ManyToOne(() => OrderEntity, (order) => order.baskets, {
+    nullable: true,
+    onDelete: "CASCADE",
+  })
   @ApiProperty({ type: OrderEntity })
   @JoinColumn()
   order?: Relation<OrderEntity>;
