@@ -22,9 +22,8 @@ export class PaymentHistoryService extends BaseService<
   constructor(
     @InjectRepository(PaymentHistoryEntity)
     protected repo: Repository<PaymentHistoryEntity>,
-    private readonly profileService: ProfileService
-  ) // private readonly orderService: OrderService
-  {
+    private readonly profileService: ProfileService // private readonly orderService: OrderService
+  ) {
     super();
   }
 
@@ -43,7 +42,7 @@ export class PaymentHistoryService extends BaseService<
       payment.paymentType = PaymentTypeEnum.partly;
     }
     // if (payment.paymentType === PaymentTypeEnum.paid) {
-    await this.profileService.update(user, payment.profile.id, {
+    await this.profileService.update(user, history.profile.id, {
       debts: profile.debts - history.money,
     });
     // }
