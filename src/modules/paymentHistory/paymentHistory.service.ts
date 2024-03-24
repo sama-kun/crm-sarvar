@@ -8,6 +8,8 @@ import { Repository } from "typeorm";
 import { UserEntity } from "@/database/entities/user.entity";
 import { ProfileService } from "../profile/profile.service";
 import { PaymentTypeEnum } from "@/interfaces/enums";
+import { OrderEntity } from "@/database/entities/order.entity";
+import { ProfileEntity } from "@/database/entities/profile.entity";
 // const console = new Logger('UserService');
 
 @Injectable()
@@ -56,8 +58,15 @@ export class PaymentHistoryService extends BaseService<
     user: UserEntity
   ): Promise<PaymentHistoryEntity> {
     if (!data.profileId) throw new HttpException("Profile dont found", 403);
-
-    const payment = await this.create(data, user);
+    const payment = await this.create(
+      {
+        money: data.money,
+        paymentType: data.paymentType,
+        order: { id: data.orderId } as OrderEntity,
+        profile: { id: data.profileId } as ProfileEntity,
+      },
+      user
+    );
     console.log("payment.profile.id", payment.profile.id);
     const profile = await this.profileService.findById(payment.profile.id, []);
     const newProfile = await this.profileService.update(
