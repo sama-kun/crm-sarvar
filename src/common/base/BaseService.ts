@@ -105,11 +105,10 @@ export abstract class BaseService<
     // Создание условия для фильтрации по дате
     let dateConditions = {};
     if (dateFilter && dateFilter.startDate && dateFilter.endDate) {
+      const endDate = new Date(dateFilter.endDate);
+      endDate.setDate(endDate.getDate() + 1);
       dateConditions = {
-        createdAt: Between(
-          new Date(dateFilter.startDate),
-          new Date(dateFilter.endDate)
-        ), // Или updatedAt, в зависимости от того, что вам нужно
+        createdAt: Between(new Date(dateFilter.startDate), endDate), // Или updatedAt, в зависимости от того, что вам нужно
       };
     }
 
