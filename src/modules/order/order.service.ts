@@ -64,15 +64,12 @@ export class OrderService extends BaseService<
     console.log("owner", owner);
     console.log("order", order);
 
-    await this.paymentHistory.orderDebt(
-      {
-        money: order.amount,
-        paymentType: PaymentTypeEnum.debt,
-        order: Number(order.id),
-        profile: Number(profile.id),
-      },
-      user
-    );
+    await this.paymentHistory.orderDebt({
+      money: order.amount,
+      paymentType: PaymentTypeEnum.debt,
+      order: Number(order.id),
+      profile: Number(profile.id),
+    });
 
     return this.repo.save(order);
   }
