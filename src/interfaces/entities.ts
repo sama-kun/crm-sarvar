@@ -68,6 +68,7 @@ export interface IOrder extends IBaseModel {
   deliveryman: IUser;
   paymentHistories: IPaymentHistory[];
   remains: number;
+  confirmed: boolean;
 }
 
 export interface IFile extends IBaseModel {

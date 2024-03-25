@@ -60,4 +60,7 @@ export class OrderEntity extends BaseModel implements IOrder {
     { onDelete: "CASCADE" }
   )
   paymentHistories: PaymentHistoryEntity[];
+
+  @Column({ type: "boolean", default: false })
+  confirmed: boolean;
 }
