@@ -34,7 +34,7 @@ export class PaymentHistoryService extends BaseService<
     data: PaymentHistoryEntity,
     user: UserEntity
   ): Promise<PaymentHistoryEntity> {
-    if (!data.profile) throw new HttpException("Profile dont found", 403);
+    // if (!data.profile) throw new HttpException("Profile dont found", 403);
 
     const payment = await this.create(data, user);
     const history = await this.findById(payment.id, ["order", "profile"]);
