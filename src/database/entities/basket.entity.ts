@@ -27,4 +27,12 @@ export class BasketEntity extends BaseModel implements IBasket {
     default: DiscountTypeEnum.standard,
   })
   discountType: DiscountTypeEnum;
+
+  @Column()
+  @ApiProperty()
+  quantity: number;
+
+  @Column()
+  @ApiProperty()
+  summa?: number;
 }

@@ -67,7 +67,7 @@ export class BasketController extends BaseController<
       Number(data.product),
       []
     );
-    // data.summa = product[product.discountType] * data.quantity;
+    data.summa = product[data.discountType] * data.quantity;
     return this.dataService.create(data, user);
   }
 
@@ -82,11 +82,28 @@ export class BasketController extends BaseController<
   @Patch(":id")
   @UseGuards(RolesQuard)
   @Roles(RoleEnum.USER)
-  update(
+  async update(
     @AuthUser() user: UserEntity,
     @Param("id") id: number,
     @Body() updateBasketDto: UpdateBasketDto
   ) {
+    const candidate = await this.dataService.findById(id, ["product"]);
+    if (updateBasketDto.discountType) {
+      const product = await this.productService.findById(
+        Number(candidate.product.id),
+        []
+      );
+      updateBasketDto.summa =
+        product[updateBasketDto.discountType] * candidate.quantity;
+    }
+    if (updateBasketDto.quantity) {
+      const product = await this.productService.findById(
+        Number(candidate.product.id),
+        []
+      );
+      updateBasketDto.summa =
+        product[candidate.discountType] * updateBasketDto.quantity;
+    }
     return this.dataService.update(user, id, updateBasketDto);
   }
 

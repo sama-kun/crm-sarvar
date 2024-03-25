@@ -58,6 +58,8 @@ export interface IBasket extends IBaseModel {
   product: IProduct;
   discountType: DiscountTypeEnum;
   order?: IOrder;
+  quantity: number;
+  summa?: number;
 }
 
 export interface IOrder extends IBaseModel {
