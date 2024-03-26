@@ -2,14 +2,13 @@ import {
   Body,
   Controller,
   Get,
-  HttpException,
-  HttpStatus,
   Param,
   ParseIntPipe,
   Patch,
   Post,
   Query,
   UseGuards,
+  Delete,
 } from "@nestjs/common";
 import { OrderService } from "./order.service";
 import { BaseController } from "@/common/base/BaseController";
@@ -83,6 +82,11 @@ export class OrderController extends BaseController<
     @Param("id") id: number,
     @Body() updateOrderDto: UpdateOrderDto
   ) {
+    console.log(updateOrderDto);
+    if (updateOrderDto.amount) {
+      console.log("sldjfs");
+      return this.dataService.amountUpdate(user, id, updateOrderDto);
+    }
     return this.dataService.update(user, id, updateOrderDto);
   }
 
@@ -118,5 +122,19 @@ export class OrderController extends BaseController<
   ) {
     const { relations } = query;
     return this.dataService.findById(id, relations);
+  }
+
+  @ApiParam({ name: "id", description: "Order ID" })
+  @ApiOperation({ summary: "Get Order by id" })
+  @ApiResponse({
+    status: 201,
+    type: OrderEntity,
+  })
+  @ApiQuery({ name: "relations", required: false, type: Array })
+  @UseGuards(RolesQuard)
+  @Roles(RoleEnum.USER)
+  @Delete("/:id")
+  delete(@AuthUser() user: UserEntity, @Param("id") id: number) {
+    return this.dataService.myDelete(user, id);
   }
 }

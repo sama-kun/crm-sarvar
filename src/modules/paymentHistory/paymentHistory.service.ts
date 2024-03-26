@@ -90,4 +90,35 @@ export class PaymentHistoryService extends BaseService<
     console.log("newProfile", newProfile);
     return payment;
   }
+
+  async updateProfile(user: UserEntity, id: number, data: any): Promise<any> {
+    const payment = await this.findById(id, []);
+    const newPayment = await this.update(user, id, {
+      money: data.money,
+    });
+    const profile = await this.profileService.findById(
+      Number(data.profile),
+      []
+    );
+    await this.profileService.update(user, Number(profile.id), {
+      debts:
+        Number(profile.debts) -
+        Number(payment.money) +
+        Number(newPayment.money),
+    });
+    return newPayment;
+  }
+
+  async myDelete(user: UserEntity, id: number, data: any): Promise<any> {
+    const payment = await this.findById(id, []);
+    await this.delete(user, id);
+    const profile = await this.profileService.findById(
+      Number(data.profile),
+      []
+    );
+    await this.profileService.update(user, Number(profile.id), {
+      debts: Number(profile.debts) - Number(payment.money),
+    });
+    return payment;
+  }
 }
