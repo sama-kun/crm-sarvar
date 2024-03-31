@@ -4,7 +4,7 @@ import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { CreateOrderDto } from "./dto/create-order.dto";
 import { UpdateOrderDto } from "./dto/update-order.dto";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { In, Repository } from "typeorm";
 import { UserEntity } from "@/database/entities/user.entity";
 import { BasketService } from "../basket/basket.service";
 import { UserService } from "../users/users.service";
@@ -148,5 +148,19 @@ export class OrderService extends BaseService<
       }
     );
     return await this.delete(user, id);
+  }
+
+  async filterForPayment(userId: number): Promise<OrderEntity[]> {
+    const order = await this.repo.find({
+      order: {
+        createdAt: "asc",
+      },
+      where: {
+        owner: { id: Number(userId) },
+        paymentType: In([PaymentTypeEnum.debt, PaymentTypeEnum.partly]),
+      },
+      relations: ["owner"],
+    });
+    return order;
   }
 }
