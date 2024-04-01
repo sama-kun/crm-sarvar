@@ -110,6 +110,7 @@ export class PaymentHistoryService extends BaseService<
           money: order.remains,
           order: { id: order.id } as OrderEntity,
           paymentType: PaymentTypeEnum.paid,
+          profile: { id: profile.id } as ProfileEntity,
         });
         payRes.push(payment);
         console.log(money);
@@ -123,6 +124,7 @@ export class PaymentHistoryService extends BaseService<
           money: money,
           order: { id: order.id } as OrderEntity,
           paymentType: PaymentTypeEnum.partly,
+          profile: { id: profile.id } as ProfileEntity,
         });
         money = 0;
         payRes.push(payment);
