@@ -3,6 +3,7 @@ export enum RoleEnum {
   DELIVERYMAN = "deliveryman",
   CLIENT = "client",
   ROOT = "root",
+  OPTOMETRIST = "optometrist",
 }
 
 export enum FileTypesEnum {
