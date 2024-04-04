@@ -61,7 +61,7 @@ export class OrderController extends BaseController<
   @ApiBody({ type: OrderEntity })
   @Post()
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.USER)
+  @Roles(RoleEnum.USER, RoleEnum.OPTOMETRIST)
   async create(@Body() data: OrderEntity, @AuthUser() user: UserEntity) {
     return this.dataService.myCreate(data, user);
   }
@@ -76,7 +76,7 @@ export class OrderController extends BaseController<
   @ApiBody({ type: OrderEntity })
   @Patch(":id")
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.USER)
+  @Roles(RoleEnum.USER, RoleEnum.OPTOMETRIST)
   update(
     @AuthUser() user: UserEntity,
     @Param("id") id: number,
@@ -94,7 +94,7 @@ export class OrderController extends BaseController<
   @ApiQuery({ type: SearchOrderDto })
   @Get()
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.USER)
+  @Roles(RoleEnum.USER, RoleEnum.OPTOMETRIST)
   async findAll(@Query() query: SearchOrderDto) {
     const { pagination, sort, relations, filter, search, dateFilter } = query;
     return this.dataService.findAll(
@@ -114,7 +114,7 @@ export class OrderController extends BaseController<
   })
   @ApiQuery({ name: "relations", required: false, type: Array })
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.USER)
+  @Roles(RoleEnum.USER, RoleEnum.OPTOMETRIST)
   @Get("/:id")
   async getOne(
     @Param("id", ParseIntPipe) id: number,
@@ -132,7 +132,7 @@ export class OrderController extends BaseController<
   })
   @ApiQuery({ name: "relations", required: false, type: Array })
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.USER)
+  @Roles(RoleEnum.USER, RoleEnum.OPTOMETRIST)
   @Delete("/:id")
   delete(@AuthUser() user: UserEntity, @Param("id") id: number) {
     return this.dataService.myDelete(user, id);

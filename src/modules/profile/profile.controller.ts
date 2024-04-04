@@ -56,7 +56,7 @@ export class ProfileController extends BaseController<
   @ApiBody({ type: ProfileEntity })
   @Post()
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.USER)
+  @Roles(RoleEnum.USER, RoleEnum.OPTOMETRIST)
   // @UseInterceptors(FileInterceptor("file"))
   create(
     @Body() data: ProfileEntity,
@@ -76,7 +76,7 @@ export class ProfileController extends BaseController<
   @ApiBody({ type: ProfileEntity })
   @Patch(":id")
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.USER)
+  @Roles(RoleEnum.USER, RoleEnum.OPTOMETRIST)
   update(
     @AuthUser() user: UserEntity,
     @Param("id") id: number,
@@ -89,7 +89,7 @@ export class ProfileController extends BaseController<
   @ApiQuery({ type: SearchProfileDto })
   @Get()
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.USER)
+  @Roles(RoleEnum.USER, RoleEnum.OPTOMETRIST)
   async findAll(@Query() query: SearchProfileDto) {
     const { pagination, sort, relations, filter, search, dateFilter } = query;
     return this.dataService.findAll(
@@ -109,7 +109,7 @@ export class ProfileController extends BaseController<
   })
   @ApiQuery({ name: "relations", required: false, type: Array })
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.USER)
+  @Roles(RoleEnum.USER, RoleEnum.OPTOMETRIST)
   @Get("/:id")
   async getOne(
     @Param("id", ParseIntPipe) id: number,

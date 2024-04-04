@@ -49,7 +49,7 @@ export class CloudinaryController {
   })
   @Post("image")
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.USER)
+  @Roles(RoleEnum.USER, RoleEnum.OPTOMETRIST)
   @UseInterceptors(FileInterceptor("file"))
   uploadImage(
     @AuthUser() user: UserEntity,
@@ -88,7 +88,7 @@ export class CloudinaryController {
   })
   @Post("upload-multiply")
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.USER)
+  @Roles(RoleEnum.USER, RoleEnum.OPTOMETRIST)
   @UseInterceptors(FilesInterceptor("files")) // Up to 10 images can be uploaded
   async uploadImages(
     @AuthUser() user: UserEntity,
@@ -110,7 +110,7 @@ export class CloudinaryController {
   })
   @Post("pdf")
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.USER)
+  @Roles(RoleEnum.USER, RoleEnum.OPTOMETRIST)
   @UseInterceptors(FileInterceptor("file", multerConfig as MulterOptions))
   uploadPdf(
     @AuthUser() user: UserEntity,
@@ -131,7 +131,7 @@ export class CloudinaryController {
   @ApiQuery({ type: SearchFileDto })
   @Get()
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.USER)
+  @Roles(RoleEnum.USER, RoleEnum.OPTOMETRIST)
   findAll(query: SearchFileDto) {
     const { pagination, sort, relations, filter, search, dateFilter } = query;
     return this.cloudinaryService.findAll(
@@ -152,7 +152,7 @@ export class CloudinaryController {
   })
   @ApiQuery({ name: "relations", required: false, type: Array })
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.USER)
+  @Roles(RoleEnum.USER, RoleEnum.OPTOMETRIST)
   @Get(":id")
   getOne(@Param("id", ParseIntPipe) id: number, @Query() query: SearchFileDto) {
     const { relations } = query;

@@ -57,7 +57,7 @@ export class PaymentHistoryController extends BaseController<
   @ApiBody({ type: PaymentHistoryEntity })
   @Post()
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.USER)
+  @Roles(RoleEnum.USER, RoleEnum.OPTOMETRIST)
   // @UseInterceptors(FileInterceptor("file"))
   create(
     @Body() data: PaymentHistoryEntity,
@@ -77,7 +77,7 @@ export class PaymentHistoryController extends BaseController<
   @ApiBody({ type: PaymentHistoryEntity })
   @Patch(":id")
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.USER)
+  @Roles(RoleEnum.USER, RoleEnum.OPTOMETRIST)
   update(
     @AuthUser() user: UserEntity,
     @Param("id") id: number,
@@ -90,7 +90,7 @@ export class PaymentHistoryController extends BaseController<
   @ApiQuery({ type: SearchPaymentHistoryDto })
   @Get()
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.USER)
+  @Roles(RoleEnum.USER, RoleEnum.OPTOMETRIST)
   async findAll(@Query() query: SearchPaymentHistoryDto) {
     const { pagination, sort, relations, filter, search, dateFilter } = query;
     return this.dataService.findAll(
@@ -110,7 +110,7 @@ export class PaymentHistoryController extends BaseController<
   })
   @ApiQuery({ name: "relations", required: false, type: Array })
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.USER)
+  @Roles(RoleEnum.USER, RoleEnum.OPTOMETRIST)
   @Get("/:id")
   async getOne(
     @Param("id", ParseIntPipe) id: number,

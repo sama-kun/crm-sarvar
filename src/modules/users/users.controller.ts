@@ -62,7 +62,7 @@ export class UserController extends BaseController<
   @ApiBody({ type: UserEntity })
   @Post()
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.USER)
+  @Roles(RoleEnum.USER, RoleEnum.OPTOMETRIST)
   async create(
     @Body() data: UserEntity[] & UserEntity,
     @AuthUser() user: UserEntity
@@ -91,7 +91,7 @@ export class UserController extends BaseController<
   @ApiBody({ type: UserEntity })
   @Patch(":id")
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.USER)
+  @Roles(RoleEnum.USER, RoleEnum.OPTOMETRIST)
   update(
     @AuthUser() user: UserEntity,
     @Param("id") id: number,
@@ -104,7 +104,7 @@ export class UserController extends BaseController<
   @ApiQuery({ type: SearchUserDto })
   @Get()
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.USER)
+  @Roles(RoleEnum.USER, RoleEnum.OPTOMETRIST)
   async findAll(@Query() query: SearchUserDto) {
     const { sort, relations, filter, search, dateFilter } = query;
     console.log(dateFilter);
@@ -125,7 +125,7 @@ export class UserController extends BaseController<
   })
   @ApiQuery({ name: "relations", required: false, type: Array })
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.USER)
+  @Roles(RoleEnum.USER, RoleEnum.OPTOMETRIST)
   @Get("/:id")
   async getOne(
     @Param("id", ParseIntPipe) id: number,
@@ -138,7 +138,7 @@ export class UserController extends BaseController<
   @Get("auth/me")
   @ApiBearerAuth()
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.USER)
+  @Roles(RoleEnum.USER, RoleEnum.OPTOMETRIST)
   me(@AuthUser() user: UserEntity) {
     if (!user)
       throw new HttpException("Токен неверный", HttpStatus.UNAUTHORIZED);
@@ -151,7 +151,7 @@ export class UserController extends BaseController<
   @Delete("/:id")
   @ApiBearerAuth()
   @UseGuards(RolesQuard)
-  @Roles(RoleEnum.USER)
+  @Roles(RoleEnum.USER, RoleEnum.OPTOMETRIST)
   delete(@AuthUser() user: UserEntity, @Param("id") id: number) {
     return this.dataService.delete(user, id);
   }
