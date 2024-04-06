@@ -10,6 +10,7 @@ import {
   UseGuards,
   UseInterceptors,
   UploadedFile,
+  Delete,
 } from "@nestjs/common";
 import { PaymentHistoryService } from "./paymentHistory.service";
 import { BaseController } from "@/common/base/BaseController";
@@ -118,5 +119,19 @@ export class PaymentHistoryController extends BaseController<
   ) {
     const { relations } = query;
     return this.dataService.findById(id, relations);
+  }
+
+  @ApiParam({ name: "id", description: "PaymentHistory ID" })
+  @ApiOperation({ summary: "Delete PaymentHistory by id" })
+  @ApiResponse({
+    status: 201,
+    type: PaymentHistoryEntity,
+  })
+  @ApiQuery({ name: "relations", required: false, type: Array })
+  @UseGuards(RolesQuard)
+  @Roles(RoleEnum.USER, RoleEnum.OPTOMETRIST)
+  @Delete("/:id")
+  async delete(@AuthUser() user: UserEntity, id: number) {
+    return this.dataService.deleter(user, id);
   }
 }

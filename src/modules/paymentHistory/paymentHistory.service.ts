@@ -194,4 +194,45 @@ export class PaymentHistoryService extends BaseService<
     });
     return payment;
   }
+
+  async deleter(user: UserEntity, id: number): Promise<any> {
+    const payment = await this.findById(id, ["profile", "order"]);
+    await this.delete(user, id);
+    const profile = await this.profileService.findById(
+      Number(payment.profile.id),
+      []
+    );
+    const updatedProfile = await this.profileService.update(
+      user,
+      Number(profile.id),
+      {
+        debts: Number(profile.debts) + Number(payment.money),
+      }
+    );
+    const order = await this.orderService.findById(payment.order.id, []);
+    let updatedOrder: any = {};
+    if (order.remains + payment.money === order.amount) {
+      updatedOrder = await this.orderService.update(
+        user,
+        Number(payment.order.id),
+        {
+          paymentType: PaymentTypeEnum.debt,
+          remains: order.remains + payment.money,
+        }
+      );
+    } else if (order.remains + payment.money < order.amount) {
+      updatedOrder = await this.orderService.update(
+        user,
+        Number(payment.order.id),
+        {
+          paymentType: PaymentTypeEnum.partly,
+          remains: order.remains + payment.money,
+        }
+      );
+    }
+    return {
+      updatedOrder,
+      updatedProfile,
+    };
+  }
 }
