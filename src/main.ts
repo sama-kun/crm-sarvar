@@ -25,7 +25,7 @@ async function bootstrap() {
   swaggerInit(app);
   // app.enableCors();
   app.enableCors({
-    origin: true, // Or use true to allow all origins
+    origin: 'https://crm-amber-delta.vercel.app/', // Or use true to allow all origins
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Content-Type, Accept',
     credentials: true,
