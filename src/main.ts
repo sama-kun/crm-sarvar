@@ -23,7 +23,14 @@ async function bootstrap() {
   logger.log(`Application [KSI] is starting...` + process.env.CHROME_PATH);
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   swaggerInit(app);
-  app.enableCors();
+  // app.enableCors();
+  app.enableCors({
+    origin: true, // Or use true to allow all origins
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: 'Content-Type, Accept',
+    credentials: true,
+  });
+  
   app.setViewEngine('ejs');
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.useStaticAssets(join(__dirname, '..', 'public'));
